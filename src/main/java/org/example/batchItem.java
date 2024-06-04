@@ -65,7 +65,7 @@ public class batchItem {
     }
 
     public void checkLowStock(Integer quantityInStock){
-        if(quantityInStock<10){
+        if(quantityInStock<50){
             notifyAllObservers();
         }
     }

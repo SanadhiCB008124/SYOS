@@ -23,6 +23,13 @@ public class BillItem {
         this.item = item;
     }
 
+    public BillItem(Integer itemCode, int quantity, double unitPrice, double totalPrice) {
+        this.itemCode = itemCode;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+    }
+
     public int getBillItemID() {
         return billItemID;
     }
@@ -33,7 +40,7 @@ public class BillItem {
 
 
     public String getItemName() {
-        return item.getItemName();
+        return itemName;
     }
 
     public void setItemName(String itemName) {
@@ -59,7 +66,7 @@ public class BillItem {
     }
 
     public double getUnitPrice() {
-        return item.getUnitPrice();
+        return unitPrice;
     }
 
     public void setUnitPrice(double unitPrice) {

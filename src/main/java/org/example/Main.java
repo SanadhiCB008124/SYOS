@@ -3,10 +3,11 @@ package org.example;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -39,6 +40,25 @@ public class Main {
         new ShelfObserver(items);
         items.setQuantityOnShelf(1);
         items.checkLowStock(1);
+
+        ReportFacade reportFacade = new ReportFacade();
+
+        System.out.println("Generating Sales Report...");
+        reportFacade.generateSalesReport();
+
+        System.out.println("Generating End of Day Report...");
+        reportFacade.generateEndOfDayReport();
+
+        System.out.println("Generating ReOrder Report...");
+        reportFacade.generateReOrderReport();
+
+        System.out.println("Generating Stock Report...");
+        reportFacade.generateStockReport();
+
+        Bill bill=new Bill();
+        List<Bill> bills = bill.allBills();
+        System.out.println("Generating Bill Report...");
+        reportFacade.generateBillReport(bills);
 
     }
 }

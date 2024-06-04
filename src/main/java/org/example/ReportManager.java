@@ -6,6 +6,6 @@ public class ReportManager {
     public static void main(String[] args){
 
         Report report=new SalesReport();
-        report.printReport();
+        report.createReport();
     }
 }
