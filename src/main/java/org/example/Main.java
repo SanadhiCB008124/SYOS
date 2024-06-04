@@ -28,18 +28,11 @@ public class Main {
         System.out.println("selected payment method:"+ payment.paymentProcess());
 
 
+        batchItem batchItem=new batchItem();
+        new concreteObserver(batchItem);
 
-
-
-
-
-
-
-
-
-
-
-
+        System.out.println("first state change");
+        batchItem.setQuantityInStock(10);
 
     }
 }

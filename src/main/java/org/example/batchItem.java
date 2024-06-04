@@ -6,8 +6,12 @@ import DatabaseConfiguration.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class batchItem {
+
+    private List<Observer> observers=new ArrayList<Observer>();
 
     private Integer batchItemId;
     private Integer batchCode;
@@ -53,5 +57,20 @@ public class batchItem {
 
     public Integer getQuantityInStock() {
         return quantityInStock;
+    }
+
+    public void setQuantityInStock(Integer quantityInStock) {
+        this.quantityInStock = quantityInStock;
+        notifyAllObservers();
+    }
+
+    public void attach(Observer observer){
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for (Observer observer : observers) {
+            observer.update();
+        }
     }
 }
