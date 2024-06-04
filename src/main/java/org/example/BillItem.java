@@ -55,6 +55,7 @@ public class BillItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
         setTotalPrice(this.unitPrice * this.quantity);
+
     }
 
     public double getUnitPrice() {

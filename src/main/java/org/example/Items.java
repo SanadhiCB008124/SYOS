@@ -90,11 +90,7 @@ public class Items {
     }
 
     public void setQuantityOnShelf(Integer quantityOnShelf) {
-        if (quantityOnShelf <= ShelfSize) {
-            this.quantityOnShelf = quantityOnShelf;
-        } else {
-            throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + ShelfSize);
-        }
+        this.quantityOnShelf=quantityOnShelf;
     }
 
     public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate) {
@@ -129,5 +125,7 @@ public class Items {
             System.out.println("Error adding ItemsOnShelf to database: " + e.getMessage());
         }
     }
+
+
 }
 

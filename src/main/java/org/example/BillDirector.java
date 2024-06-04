@@ -114,6 +114,7 @@ public class BillDirector{
 
 
 
+
                 BillItem billItem = new BillItem(item.getItemCode(), itemName, quantity, item.getUnitPrice(), totalPrice, item);
                 billItems.add(billItem);
                 taBillDetails.append(String.format("Item: %s, Quantity: %d, Unit Price: %.2f, Total Price: %.2f%n ",
@@ -209,10 +210,12 @@ public class BillDirector{
     public void saveBill(Bill bill) {
         String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String billItemSQL = "INSERT INTO billItem (billSerialNumber, itemCode, qtyperitem, priceperitem, totalamount) VALUES (?, ?, ?, ?, ?)";
+        String updateItemQty = "UPDATE item SET qtyonshelf = qtyonshelf - ? WHERE itemcode = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement billStmt = conn.prepareStatement(billSQL);
-             PreparedStatement billItemStmt = conn.prepareStatement(billItemSQL)) {
+             PreparedStatement billItemStmt = conn.prepareStatement(billItemSQL);
+             PreparedStatement updateItemStmt = conn.prepareStatement(updateItemQty)) {
 
             conn.setAutoCommit(false);
 
@@ -235,6 +238,11 @@ public class BillDirector{
                 billItemStmt.setDouble(4, item.getUnitPrice());
                 billItemStmt.setDouble(5, item.getTotalPrice());
                 billItemStmt.executeUpdate();
+
+                // Update item quantity on shelf after each bill item is inserted
+                updateItemStmt.setInt(1, item.getQuantity());
+                updateItemStmt.setInt(2, item.getItemCode());
+                updateItemStmt.executeUpdate();
             }
 
             conn.commit();
