@@ -5,8 +5,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Items {
+
+    private List<Observer> observers=new ArrayList<Observer>();
 
     private static final int ShelfSize = 20;
 
@@ -91,6 +95,7 @@ public class Items {
 
     public void setQuantityOnShelf(Integer quantityOnShelf) {
         this.quantityOnShelf=quantityOnShelf;
+        notifyAllObservers();
     }
 
     public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate) {
@@ -123,6 +128,16 @@ public class Items {
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error adding ItemsOnShelf to database: " + e.getMessage());
+        }
+    }
+
+    public void attach(Observer observer){
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for (Observer observer : observers) {
+            observer.update();
         }
     }
 

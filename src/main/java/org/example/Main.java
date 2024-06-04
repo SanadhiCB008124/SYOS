@@ -29,10 +29,14 @@ public class Main {
 
 
         batchItem batchItem=new batchItem();
-        new concreteObserver(batchItem);
+        new StockObserver(batchItem);
 
         System.out.println("first state change");
         batchItem.setQuantityInStock(10);
+
+        Items items=new Items();
+        new ShelfObserver(items);
+        items.setQuantityOnShelf(1);
 
     }
 }
