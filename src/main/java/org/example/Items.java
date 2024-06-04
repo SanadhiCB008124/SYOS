@@ -98,6 +98,12 @@ public class Items {
         notifyAllObservers();
     }
 
+    public void checkLowStock(Integer quantityOnShelf){
+        if(quantityOnShelf<10){
+            notifyAllObservers();
+        }
+    }
+
     public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate) {
         if (quantityOnShelf > ShelfSize) {
             throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + ShelfSize);
@@ -138,6 +144,7 @@ public class Items {
     public void notifyAllObservers(){
         for (Observer observer : observers) {
             observer.update();
+            observer.lowStockAlert();
         }
     }
 

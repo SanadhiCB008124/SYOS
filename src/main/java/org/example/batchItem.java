@@ -64,6 +64,12 @@ public class batchItem {
         notifyAllObservers();
     }
 
+    public void checkLowStock(Integer quantityInStock){
+        if(quantityInStock<10){
+            notifyAllObservers();
+        }
+    }
+
     public void attach(Observer observer){
         observers.add(observer);
     }
@@ -71,6 +77,8 @@ public class batchItem {
     public void notifyAllObservers(){
         for (Observer observer : observers) {
             observer.update();
+            observer.lowStockAlert();
+
         }
     }
 }

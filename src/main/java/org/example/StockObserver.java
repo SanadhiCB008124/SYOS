@@ -10,4 +10,11 @@ public class StockObserver extends Observer{
     public void update() {
         System.out.println("Observer is updated"+batchItem.getQuantityInStock());
     }
+
+    @Override
+    public void lowStockAlert() {
+        System.out.println("Low Stock ! Re-order "+batchItem.getQuantityInStock() );
+    }
+
+
 }
