@@ -19,7 +19,9 @@ public class Bill {
     private Date dateOfBill;
     private int totalQuantitiesSold;
 
-    public Bill(int billSerialNumber, double netTotal, List<BillItem> billItems, double discount, double cashTendered, double changeAmount, double subTotal, Date dateOfBill, int totalQuantitiesSold) {
+    private String paymentStrategy;
+
+    public Bill(int billSerialNumber, double netTotal, List<BillItem> billItems, double discount, double cashTendered, double changeAmount, double subTotal, Date dateOfBill, int totalQuantitiesSold,String paymentStrategy) {
         this.billSerialNumber = billSerialNumber;
         this.netTotal = netTotal;
         this.billItems = billItems;
@@ -29,6 +31,7 @@ public class Bill {
         this.subTotal = subTotal;
         this.dateOfBill = dateOfBill;
         this.totalQuantitiesSold = totalQuantitiesSold;
+        this.paymentStrategy= paymentStrategy;
     }
 
     public Bill() {
@@ -107,6 +110,14 @@ public class Bill {
         this.totalQuantitiesSold = totalQuantitiesSold;
     }
 
+    public String getPaymentStrategy() {
+        return paymentStrategy;
+    }
+
+    public void setPaymentStrategy(String paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
     public List<Bill> allBills() throws SQLException {
         List<Bill> bills = new ArrayList<>();
         String sql = "SELECT * FROM bill";
@@ -125,6 +136,7 @@ public class Bill {
                 double subTotal = rs.getDouble("subtotal");
                 Date dateOfBill = rs.getDate("dateofbill");
                 int totalQuantitiesSold = rs.getInt("totalquantitiessold");
+                String paymentStrategy = rs.getString("paymentstrategy");
 
                 List<BillItem> billItems = new ArrayList<>();
                 try (PreparedStatement ps = conn.prepareStatement(sqlItems)) {
@@ -142,7 +154,7 @@ public class Bill {
                     }
                 }
 
-                Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold);
+                Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold,paymentStrategy);
                 bills.add(bill);
             }
         }
@@ -162,6 +174,7 @@ public class Bill {
         }
         sb.append("\n");
         sb.append("Total Quantities sold: ").append(totalQuantitiesSold).append("\n");
+        sb.append("Payment Strategy:").append(paymentStrategy).append("\n");
         sb.append("Subtotal: ").append(String.format("%.2f", subTotal)).append("\n");
         sb.append("Discount: ").append(String.format("%.2f", discount)).append("\n");
         sb.append("Net Total: ").append(String.format("%.2f", netTotal)).append("\n");

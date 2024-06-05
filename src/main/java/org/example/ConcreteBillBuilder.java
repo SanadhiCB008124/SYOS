@@ -56,6 +56,12 @@ public class ConcreteBillBuilder implements BillBuilder {
     }
 
     @Override
+    public void addPaymentStrategy(String paymentStrategy) {
+        bill.setPaymentStrategy(paymentStrategy);
+    }
+
+
+    @Override
     public Bill getBill() {
         return this.bill;
     }

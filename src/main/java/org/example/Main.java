@@ -24,9 +24,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter payment method: 1.Cash");
         int choice = scanner.nextInt();
-        PaymentFactory paymentFactory=new PaymentFactory();
-        Payment payment=paymentFactory.getPaymentMethod(choice);
-        System.out.println("selected payment method:"+ payment.paymentProcess());
 
 
         batchItem batchItem=new batchItem();

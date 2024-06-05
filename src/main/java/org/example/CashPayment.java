@@ -1,10 +1,15 @@
 package org.example;
 
-public class CashPayment implements Payment{
+public class CashPayment implements PaymentStrategy{
+
 
     @Override
-    public String paymentProcess() {
+    public void pay(double amount) {
+        System.out.println("Paying with cash: " + amount);
+    }
 
-        return "cash";
+    @Override
+    public void strategy() {
+        String strategy = "Cash";
     }
 }

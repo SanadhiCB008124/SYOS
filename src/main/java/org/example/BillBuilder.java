@@ -15,5 +15,7 @@ public interface BillBuilder {
     void addDateOfBill(Date dateOfBill);
 
     void addTotalQuantitiesSold(int totalQuantitiesSold);
+
+    void addPaymentStrategy(String paymentStrategy);
     Bill getBill();
 }
