@@ -1,5 +1,5 @@
 package org.example.View;
-import org.example.Product;
+import org.example.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class ItemsOnShelfView extends JFrame {
@@ -22,12 +24,21 @@ public class ItemsOnShelfView extends JFrame {
 
     private JTextField expiryDate = new JFormattedTextField("yyyy-MM-dd");
     private JTextField manufactureDate = new JFormattedTextField("yyyy-MM-dd");
+    private JComboBox<String> discountComboBox;
+    private Map<String, DiscountStrategy> discountStrategyMap;
+
 
 
     public ItemsOnShelfView() {
         JPanel itemsOnShelfPanel = new JPanel(new GridLayout(0, 2));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 400);
+
+        this.discountStrategyMap = new HashMap<>();
+        discountStrategyMap.put("Holiday Discount", new HolidayDiscount(0.10));  // 10% discount
+        discountStrategyMap.put("Seasonal Discount", new SeasonalDiscount(0.15));  // 15% discount
+
+        discountComboBox = new JComboBox<>(discountStrategyMap.keySet().toArray(new String[0]));
 
         itemsOnShelfPanel.add(new JLabel("Item Code:"));
         itemsOnShelfPanel.add(itemcode);
@@ -43,6 +54,8 @@ public class ItemsOnShelfView extends JFrame {
         itemsOnShelfPanel.add(expiryDate);
         itemsOnShelfPanel.add(new JLabel("Manufacture Date:"));
         itemsOnShelfPanel.add(manufactureDate);
+        itemsOnShelfPanel.add(new JLabel("Discount Strategy:"));
+        itemsOnShelfPanel.add(discountComboBox);
 
         itemsOnShelfPanel.add(addItemsOnShelf);
         this.add(itemsOnShelfPanel);
@@ -68,6 +81,9 @@ public class ItemsOnShelfView extends JFrame {
         return productid.getSelectedItem().toString().split(" - ")[0];
     }
 
+    public DiscountStrategy getSelectedDiscountStrategy() {
+        return discountStrategyMap.get(discountComboBox.getSelectedItem().toString());
+    }
     public void setProducts(List<Product> products) {
         for (Product product : products) {
             productid.addItem(product.getProductID() + " - " + product.getProductName());

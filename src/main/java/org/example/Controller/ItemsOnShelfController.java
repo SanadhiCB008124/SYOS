@@ -1,9 +1,7 @@
 package org.example.Controller;
 
-import org.example.Items;
+import org.example.*;
 import org.example.View.ItemsOnShelfView;
-import org.example.Product;
-import org.example.ProductIterator;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,9 +45,12 @@ public class ItemsOnShelfController {
                 Product product = new Product(Integer.parseInt(theView.getProductID()), "");
                 expiryDate = theView.getExpiryDate();
                 manufactureDate = theView.getManufactureDate();
+                DiscountStrategy discountStrategy = theView.getSelectedDiscountStrategy();
+                DiscountContext discountContext = new DiscountContext(discountStrategy);
+                double discountedPrice = discountContext.applyDiscount(unitPrice);
 
 
-                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product, expiryDate, manufactureDate);
+                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product, expiryDate, manufactureDate,discountStrategy);
                 theView.displaySuccessMessage("Item added successfully!");
             } catch (Exception ex) {
                 ex.printStackTrace();

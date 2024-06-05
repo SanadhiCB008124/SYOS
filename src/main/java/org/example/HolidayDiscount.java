@@ -2,10 +2,14 @@ package org.example;
 
 public class HolidayDiscount implements DiscountStrategy{
 
-    private final double discount=200.00;
+    private  double discount;
+
+    public HolidayDiscount(double discount) {
+        this.discount = discount;
+    }
 
     @Override
-    public double discount(double discount, Items items) {
-        return items.getUnitPrice()-discount;
+    public double applyDiscount(double price) {
+        return price*(1-discount);
     }
 }

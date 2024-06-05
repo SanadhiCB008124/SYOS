@@ -17,23 +17,36 @@ public class Items {
     private Integer itemCode;
     private String itemDescription;
     private double unitPrice;
-
     private Date expiryDate;
     private Date manufactureDate;
     private Integer quantityOnShelf;
     private Product product;
+    private double discount;
 
-    public Items(Integer itemCode, String itemDescription, double unitPrice,Product product) {
+
+    public Items(Integer itemCode, String itemDescription, double unitPrice,Product product,double discount) {
         this.itemCode = itemCode;
         this.itemDescription = itemDescription;
         this.unitPrice = unitPrice;
         this.product=product;
+        this.discount=discount;
     }
 
     public Items() {
     }
 
-    public Items(int itemCode, String itemDescription, double unitPrice) {
+    public Items(Integer itemCode, String itemDescription, double unitPrice) {
+        this.itemCode=itemCode;
+        this.itemDescription=itemDescription;
+        this.unitPrice=unitPrice;
+    }
+
+    public Items(Integer itemCode, String itemDescription, double unitPrice, Product product) {
+        this.itemCode=itemCode;
+        this.itemDescription=itemDescription;
+        this.unitPrice=unitPrice;
+        this.product=product;
+
     }
 
 
@@ -62,6 +75,7 @@ public class Items {
     }
 
     public void setUnitPrice(double unitPrice) {
+
         this.unitPrice = unitPrice;
     }
 
@@ -71,6 +85,14 @@ public class Items {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public Date getExpiryDate() {
@@ -98,13 +120,15 @@ public class Items {
         notifyAllObservers();
     }
 
+    
+
     public void checkLowStock(Integer quantityOnShelf){
         if(quantityOnShelf<10){
             notifyAllObservers();
         }
     }
 
-    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate) {
+    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate, DiscountStrategy discountStrategy ) {
         if (quantityOnShelf > ShelfSize) {
             throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + ShelfSize);
         }
@@ -115,8 +139,9 @@ public class Items {
         this.product = product;
         this.expiryDate = new Date(expiryDate.getTime());
         this.manufactureDate = new Date(manufactureDate.getTime());
+        this.discount = discountStrategy.applyDiscount(unitPrice);
 
-        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid, expirydate, manufacturedate) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid, expirydate, manufacturedate,discount) VALUES(?, ?, ?, ?, ?, ?,?,?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
@@ -128,6 +153,7 @@ public class Items {
             pstmt.setInt(5, product.getProductID());
             pstmt.setDate(6, new java.sql.Date(expiryDate.getTime()));
             pstmt.setDate(7, new java.sql.Date(manufactureDate.getTime()));
+            pstmt.setDouble(8,discount);
 
             pstmt.executeUpdate();
 

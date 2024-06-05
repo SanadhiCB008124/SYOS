@@ -8,7 +8,7 @@ public class DiscountContext {
 
     }
 
-    public double executeStrategy(double discount, Items items){
-        return discountStrategy.discount(discount,items);
+    public double applyDiscount(double price){
+        return discountStrategy.applyDiscount(price);
     }
 }

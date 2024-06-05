@@ -128,9 +128,6 @@ public class BillDirector{
                 totalQuantitiesSold += quantity;
                 subTotal += totalPrice;
 
-
-
-
                 BillItem billItem = new BillItem(item.getItemCode(), itemName, quantity, item.getUnitPrice(), totalPrice, item);
                 billItems.add(billItem);
                 taBillDetails.append(String.format("Item: %s, Quantity: %d, Unit Price: %.2f, Total Price: %.2f%n ",
@@ -201,8 +198,9 @@ public class BillDirector{
                     Integer productId = rs.getInt("productid");
                     String itemDescription = rs.getString("itemdescription");
                     double unitPrice = rs.getDouble("unitprice");
-
                     Product product = fetchProductDetails(productId);
+
+
 
                     item = new Items(itemCode, itemDescription, unitPrice, product);
                 }
