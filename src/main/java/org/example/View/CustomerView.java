@@ -1,7 +1,11 @@
 package org.example.View;
 
+import org.example.*;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomerView extends JFrame {
 
@@ -10,7 +14,13 @@ public class CustomerView extends JFrame {
     private JButton addCustomer = new JButton("Add");
     private JTextField customerName = new JTextField(50);
 
+    private JComboBox<String> customerTypes;
+    private Map<String, Customer> customerMap;
+
     public CustomerView() {
+
+
+
         JPanel customerPanel = new JPanel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 200);
@@ -21,6 +31,11 @@ public class CustomerView extends JFrame {
         customerPanel.add(addCustomer);
         customerPanel.add(new JLabel("Customer Name:"));
         customerPanel.add(customerName);
+
+        customerPanel.add(new JLabel("Select Customer Type:"));
+        String[] types = {"Regular", "Loyalty"};
+        customerTypes = new JComboBox<>(types);
+        customerPanel.add(customerTypes);
 
         this.add(customerPanel);
     }
@@ -33,6 +48,13 @@ public class CustomerView extends JFrame {
         return customerLastName.getText();
     }
 
+    public String getCustomerType() {
+        return customerTypes.getSelectedItem().toString();
+    }
+
+    public void setCustomerType(String customerType) {
+        customerTypes.setSelectedItem(customerType);
+    }
     public void setCustomerName(String name) {
         customerName.setText(name);
     }
