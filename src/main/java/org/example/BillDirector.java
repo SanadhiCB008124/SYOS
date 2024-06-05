@@ -38,9 +38,9 @@ public class BillDirector{
 
 
     public BillDirector(BillBuilder builder) {
-        this.builder = builder;
 
-        this.state=new IdleState();
+        this.state=new ProcessState();
+        this.builder = builder;
         this.strategyMap = new HashMap<>();
         strategyMap.put("Cash", new CashPayment());
         strategyMap.put("Credit Card", new CreditCardPayment());
@@ -78,7 +78,7 @@ public class BillDirector{
             }
         });
 
-        panel.add(new JLabel("Select Payment Strategy:"));
+        panel.add(new JLabel("Select Payment Method:"));
         paymentStrategyComboBox = new JComboBox<>(strategyMap.keySet().toArray(new String[0]));
         panel.add(paymentStrategyComboBox);
 
@@ -157,6 +157,11 @@ public class BillDirector{
             double changeAmount = cashTendered - netTotal;
             String selectedPaymentStrategy = (String) paymentStrategyComboBox.getSelectedItem();
             PaymentStrategy strategy = strategyMap.get(selectedPaymentStrategy);
+            PaymentContext paymentContext = new PaymentContext(strategy);
+
+
+
+
             Date dateOfBill = new Date();
 
             builder.addSerialNumber(billSerialNumber);
@@ -168,9 +173,11 @@ public class BillDirector{
             builder.addChangeAmount(changeAmount);
             builder.addDateOfBill(dateOfBill);
             builder.addTotalQuantitiesSold(totalQuantitiesSold);
-            builder.addPaymentStrategy(strategy.toString());
+            builder.addPaymentMethod(selectedPaymentStrategy);
+
 
             Bill bill = builder.getBill();
+            paymentContext.executeStrategy(bill);
             saveBill(bill);
 
             taBillDetails.append(String.format("%nSubtotal: %.2f%nDiscount: %.2f%nNet Total: %.2f%nCash Tendered: %.2f%nChange Amount: %.2f%n",
@@ -228,7 +235,7 @@ public class BillDirector{
 
         state=new SavedState();
 
-        String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentstrategy) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)";
+        String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)";
         String billItemSQL = "INSERT INTO billItem (billSerialNumber, itemCode, qtyperitem, priceperitem, totalamount) VALUES (?, ?, ?, ?, ?)";
         String updateItemQty = "UPDATE item SET qtyonshelf = qtyonshelf - ? WHERE itemcode = ?";
 
@@ -248,7 +255,7 @@ public class BillDirector{
             billStmt.setDouble(6, bill.getCashTendered());
             billStmt.setDouble(7, bill.getChangeAmount());
             billStmt.setInt(8,bill.getTotalQuantitiesSold());
-            billStmt.setString(9, bill.getPaymentStrategy());
+            billStmt.setString(9, bill.getPaymentMethod());
             billStmt.executeUpdate();
 
             // Insert bill items
@@ -288,10 +295,9 @@ public class BillDirector{
 
     public static void main(String[] args) {
         BillBuilder builder = new ConcreteBillBuilder();
-        new BillDirector(builder);
         BillDirector billDirector=new BillDirector(builder);
         billDirector.checkState();
-        
+
 
     }
 

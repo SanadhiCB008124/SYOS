@@ -1,7 +1,9 @@
 package org.example;
 
 public interface PaymentStrategy {
-    void pay(double amount);
 
-    void strategy();
+
+    void paymentMethod(Bill bill);
+
+
 }

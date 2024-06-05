@@ -6,9 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Product {
-
-
+public class Product{
     private int productID;
     private String productName;
     private int productCategoryID;
@@ -67,5 +65,6 @@ public class Product {
     public  int getProductCategoryID(){
         return productCategoryID;
     }
+
 
 }

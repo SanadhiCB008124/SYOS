@@ -20,6 +20,8 @@ public class Main {
             System.err.println("Error establishing database connection: " + e.getMessage());
         }
 
+        DiscountContext discountContext=new DiscountContext(new HolidayDiscount());
+
 
        /* Scanner scanner = new Scanner(System.in);
         System.out.println("Enter payment method: 1.Cash");

@@ -19,9 +19,10 @@ public class Bill  {
     private Date dateOfBill;
     private int totalQuantitiesSold;
 
-    private String paymentStrategy;
+    private String paymentMethod;
 
-    public Bill(int billSerialNumber, double netTotal, List<BillItem> billItems, double discount, double cashTendered, double changeAmount, double subTotal, Date dateOfBill, int totalQuantitiesSold,String paymentStrategy) {
+
+    public Bill(int billSerialNumber, double netTotal, List<BillItem> billItems, double discount, double cashTendered, double changeAmount, double subTotal, Date dateOfBill, int totalQuantitiesSold,String paymentMethod) {
         this.billSerialNumber = billSerialNumber;
         this.netTotal = netTotal;
         this.billItems = billItems;
@@ -31,7 +32,7 @@ public class Bill  {
         this.subTotal = subTotal;
         this.dateOfBill = dateOfBill;
         this.totalQuantitiesSold = totalQuantitiesSold;
-        this.paymentStrategy= paymentStrategy;
+        this.paymentMethod=paymentMethod;
     }
 
     public Bill() {
@@ -110,12 +111,12 @@ public class Bill  {
         this.totalQuantitiesSold = totalQuantitiesSold;
     }
 
-    public String getPaymentStrategy() {
-        return paymentStrategy;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPaymentStrategy(String paymentStrategy) {
-        this.paymentStrategy = paymentStrategy;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public List<Bill> allBills() throws SQLException {
@@ -174,7 +175,7 @@ public class Bill  {
         }
         sb.append("\n");
         sb.append("Total Quantities sold: ").append(totalQuantitiesSold).append("\n");
-        sb.append("Payment Strategy:").append(paymentStrategy).append("\n");
+        sb.append("Payment Method:").append(paymentMethod).append("\n");
         sb.append("Subtotal: ").append(String.format("%.2f", subTotal)).append("\n");
         sb.append("Discount: ").append(String.format("%.2f", discount)).append("\n");
         sb.append("Net Total: ").append(String.format("%.2f", netTotal)).append("\n");
