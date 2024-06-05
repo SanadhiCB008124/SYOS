@@ -2,7 +2,7 @@ package org.example.View;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.sql.Date;
 
 public class batchItemView extends JFrame {
 
@@ -11,6 +11,12 @@ public class batchItemView extends JFrame {
     private JTextField quantityInStock = new JTextField(10);
     private JButton addBatchItem = new JButton("Add");
     private JTextField newBatchItem = new JTextField(50);
+
+
+    private JTextField expiryDate = new JFormattedTextField("yyyy-MM-dd");
+    private JTextField manufactureDate = new JFormattedTextField("yyyy-MM-dd");
+
+
 
     public batchItemView() {
         JPanel batchItemPanel = new JPanel();
@@ -24,8 +30,15 @@ public class batchItemView extends JFrame {
         batchItemPanel.add(batchCode);
         batchItemPanel.add(new JLabel("Quantity in Stock:"));
         batchItemPanel.add(quantityInStock);
+        batchItemPanel.add(new JLabel("Expiry Date:"));
+        batchItemPanel.add(expiryDate);
+        batchItemPanel.add(new JLabel("Manufacture Date:"));
+        batchItemPanel.add(manufactureDate);
+
+
         batchItemPanel.add(addBatchItem);
         batchItemPanel.add(new JLabel("Batch Item:"));
+
 
 
         this.add(batchItemPanel);
@@ -43,8 +56,20 @@ public class batchItemView extends JFrame {
         return quantityInStock;
     }
 
-    public void setBatchItem(Integer itemCode, Integer batchCode, Integer quantityInStock) {
-        newBatchItem.setText("Item Code: " + itemCode + ", Batch Code: " + batchCode + ", Quantity in Stock: " + quantityInStock);
+    public Date getExpiryDate() {
+        return  Date.valueOf(expiryDate.getText());
+    }
+
+    
+
+    public Date getManufactureDate(){
+        return  Date.valueOf(manufactureDate.getText());
+    }
+  
+
+
+    public void setBatchItem(Integer itemCode, Integer batchCode, Integer quantityInStock, Date expiryDate, Date manufactureDate) {
+        newBatchItem.setText("Item Code: " + itemCode + ", Batch Code: " + batchCode + ", Quantity in Stock: " + quantityInStock+ "Manufacture Date:"+ manufactureDate+"Date of Expire:"+expiryDate);
     }
 
 

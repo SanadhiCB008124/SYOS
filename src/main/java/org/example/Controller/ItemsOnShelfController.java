@@ -43,10 +43,9 @@ public class ItemsOnShelfController {
                 double unitPrice = Double.parseDouble(theView.getUnitPrice());
                 int quantityOnShelf = Integer.parseInt(theView.getQuantityOnShelf());
                 Product product = new Product(Integer.parseInt(theView.getProductID()), "");
-                expiryDate = theView.getExpiryDate();
-                manufactureDate = theView.getManufactureDate();
 
-                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product, expiryDate, manufactureDate);
+
+                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product);
                 theView.displaySuccessMessage("Item added successfully!");
             } catch (Exception ex) {
                 ex.printStackTrace();

@@ -22,9 +22,6 @@ public class ItemsOnShelfView extends JFrame {
     private JComboBox<String> productid = new JComboBox<>();
     private JButton addItemsOnShelf = new JButton("Add");
 
-    private JTextField expiryDate = new JFormattedTextField("yyyy-MM-dd");
-    private JTextField manufactureDate = new JFormattedTextField("yyyy-MM-dd");
-
 
 
     public ItemsOnShelfView() {
@@ -43,10 +40,7 @@ public class ItemsOnShelfView extends JFrame {
         itemsOnShelfPanel.add(qtyonshelf);
         itemsOnShelfPanel.add(new JLabel("Product ID:"));
         itemsOnShelfPanel.add(productid);
-        itemsOnShelfPanel.add(new JLabel("Expiry Date:"));
-        itemsOnShelfPanel.add(expiryDate);
-        itemsOnShelfPanel.add(new JLabel("Manufacture Date:"));
-        itemsOnShelfPanel.add(manufactureDate);
+
 
         itemsOnShelfPanel.add(addItemsOnShelf);
         this.add(itemsOnShelfPanel);
@@ -78,14 +72,6 @@ public class ItemsOnShelfView extends JFrame {
         for (Product product : products) {
             productid.addItem(product.getProductID() + " - " + product.getProductName());
         }
-    }
-
-    public Date getExpiryDate() {
-        return  Date.valueOf(expiryDate.getText());
-    }
-
-    public Date getManufactureDate() {
-        return  Date.valueOf(manufactureDate.getText());
     }
 
 

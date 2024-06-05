@@ -17,8 +17,7 @@ public class Items {
     private Integer itemCode;
     private String itemDescription;
     private double unitPrice;
-    private Date expiryDate;
-    private Date manufactureDate;
+
     private Integer quantityOnShelf;
     private Product product;
 
@@ -81,21 +80,6 @@ public class Items {
     }
 
 
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public Date getManufactureDate() {
-        return manufactureDate;
-    }
-
-    public void setManufactureDate(Date manufactureDate) {
-        this.manufactureDate = manufactureDate;
-    }
 
     public Integer getQuantityOnShelf() {
         return quantityOnShelf;
@@ -114,7 +98,7 @@ public class Items {
         }
     }
 
-    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate) {
+    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product) {
         if (quantityOnShelf > ShelfSize) {
             throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + ShelfSize);
         }
@@ -124,11 +108,10 @@ public class Items {
         this.unitPrice = unitPrice;
         this.quantityOnShelf = quantityOnShelf;
         this.product = product;
-        this.expiryDate = new Date(expiryDate.getTime());
-        this.manufactureDate = new Date(manufactureDate.getTime());
 
 
-        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid, expirydate, manufacturedate) VALUES(?, ?, ?, ?, ?, ?,?)";
+
+        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid) VALUES(?, ?, ?, ?, ?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
@@ -138,8 +121,6 @@ public class Items {
             pstmt.setDouble(3, unitPrice);
             pstmt.setInt(4, quantityOnShelf);
             pstmt.setInt(5, product.getProductID());
-            pstmt.setDate(6, new java.sql.Date(expiryDate.getTime()));
-            pstmt.setDate(7, new java.sql.Date(manufactureDate.getTime()));
 
 
             pstmt.executeUpdate();
