@@ -24,8 +24,6 @@ public class ItemsOnShelfView extends JFrame {
 
     private JTextField expiryDate = new JFormattedTextField("yyyy-MM-dd");
     private JTextField manufactureDate = new JFormattedTextField("yyyy-MM-dd");
-    private JComboBox<String> discountComboBox;
-    private Map<String, DiscountStrategy> discountStrategyMap;
 
 
 
@@ -34,11 +32,6 @@ public class ItemsOnShelfView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 400);
 
-        this.discountStrategyMap = new HashMap<>();
-        discountStrategyMap.put("Holiday Discount", new HolidayDiscount(0.10));  // 10% discount
-        discountStrategyMap.put("Seasonal Discount", new SeasonalDiscount(0.15));  // 15% discount
-
-        discountComboBox = new JComboBox<>(discountStrategyMap.keySet().toArray(new String[0]));
 
         itemsOnShelfPanel.add(new JLabel("Item Code:"));
         itemsOnShelfPanel.add(itemcode);
@@ -54,8 +47,6 @@ public class ItemsOnShelfView extends JFrame {
         itemsOnShelfPanel.add(expiryDate);
         itemsOnShelfPanel.add(new JLabel("Manufacture Date:"));
         itemsOnShelfPanel.add(manufactureDate);
-        itemsOnShelfPanel.add(new JLabel("Discount Strategy:"));
-        itemsOnShelfPanel.add(discountComboBox);
 
         itemsOnShelfPanel.add(addItemsOnShelf);
         this.add(itemsOnShelfPanel);
@@ -81,9 +72,8 @@ public class ItemsOnShelfView extends JFrame {
         return productid.getSelectedItem().toString().split(" - ")[0];
     }
 
-    public DiscountStrategy getSelectedDiscountStrategy() {
-        return discountStrategyMap.get(discountComboBox.getSelectedItem().toString());
-    }
+
+
     public void setProducts(List<Product> products) {
         for (Product product : products) {
             productid.addItem(product.getProductID() + " - " + product.getProductName());

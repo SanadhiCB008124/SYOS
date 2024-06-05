@@ -21,16 +21,9 @@ public class Items {
     private Date manufactureDate;
     private Integer quantityOnShelf;
     private Product product;
-    private double discount;
 
 
-    public Items(Integer itemCode, String itemDescription, double unitPrice,Product product,double discount) {
-        this.itemCode = itemCode;
-        this.itemDescription = itemDescription;
-        this.unitPrice = unitPrice;
-        this.product=product;
-        this.discount=discount;
-    }
+
 
     public Items() {
     }
@@ -87,13 +80,6 @@ public class Items {
         this.product = product;
     }
 
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
 
     public Date getExpiryDate() {
         return expiryDate;
@@ -128,10 +114,11 @@ public class Items {
         }
     }
 
-    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate, DiscountStrategy discountStrategy ) {
+    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product, java.util.Date expiryDate, java.util.Date manufactureDate) {
         if (quantityOnShelf > ShelfSize) {
             throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + ShelfSize);
         }
+
         this.itemCode = itemCode;
         this.itemDescription = itemDescription;
         this.unitPrice = unitPrice;
@@ -139,9 +126,9 @@ public class Items {
         this.product = product;
         this.expiryDate = new Date(expiryDate.getTime());
         this.manufactureDate = new Date(manufactureDate.getTime());
-        this.discount = discountStrategy.applyDiscount(unitPrice);
 
-        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid, expirydate, manufacturedate,discount) VALUES(?, ?, ?, ?, ?, ?,?,?)";
+
+        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid, expirydate, manufacturedate) VALUES(?, ?, ?, ?, ?, ?,?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
@@ -153,7 +140,7 @@ public class Items {
             pstmt.setInt(5, product.getProductID());
             pstmt.setDate(6, new java.sql.Date(expiryDate.getTime()));
             pstmt.setDate(7, new java.sql.Date(manufactureDate.getTime()));
-            pstmt.setDouble(8,discount);
+
 
             pstmt.executeUpdate();
 

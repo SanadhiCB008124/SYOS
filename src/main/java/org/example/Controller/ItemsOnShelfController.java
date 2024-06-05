@@ -45,12 +45,8 @@ public class ItemsOnShelfController {
                 Product product = new Product(Integer.parseInt(theView.getProductID()), "");
                 expiryDate = theView.getExpiryDate();
                 manufactureDate = theView.getManufactureDate();
-                DiscountStrategy discountStrategy = theView.getSelectedDiscountStrategy();
-                DiscountContext discountContext = new DiscountContext(discountStrategy);
-                double discountedPrice = discountContext.applyDiscount(unitPrice);
 
-
-                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product, expiryDate, manufactureDate,discountStrategy);
+                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product, expiryDate, manufactureDate);
                 theView.displaySuccessMessage("Item added successfully!");
             } catch (Exception ex) {
                 ex.printStackTrace();
