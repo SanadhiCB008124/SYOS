@@ -21,9 +21,9 @@ public class Main {
         }
 
 
-        Scanner scanner = new Scanner(System.in);
+       /* Scanner scanner = new Scanner(System.in);
         System.out.println("Enter payment method: 1.Cash");
-        int choice = scanner.nextInt();
+        int choice = scanner.nextInt();*/
 
 
         batchItem batchItem=new batchItem();

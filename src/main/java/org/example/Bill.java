@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Bill {
+public class Bill  {
 
     private int billSerialNumber;
     private double netTotal;
@@ -182,4 +182,6 @@ public class Bill {
         sb.append("Change Amount: ").append(String.format("%.2f", changeAmount)).append("\n");
         return sb.toString();
     }
+
+
 }

@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class BillDirector{
+
+    private  POSState state;
     private BillBuilder builder;
 
     private JComboBox<String> paymentStrategyComboBox;
@@ -38,6 +40,7 @@ public class BillDirector{
     public BillDirector(BillBuilder builder) {
         this.builder = builder;
 
+        this.state=new IdleState();
         this.strategyMap = new HashMap<>();
         strategyMap.put("Cash", new CashPayment());
         strategyMap.put("Credit Card", new CreditCardPayment());
@@ -145,6 +148,7 @@ public class BillDirector{
     }
 
     private void finalizeBill() {
+        state=new FinalizedState();
         try {
             int billSerialNumber = Integer.parseInt(tfBillSerialNumber.getText());
             double discount = Double.parseDouble(tfDiscount.getText());
@@ -221,6 +225,9 @@ public class BillDirector{
     }
 
     public void saveBill(Bill bill) {
+
+        state=new SavedState();
+
         String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentstrategy) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)";
         String billItemSQL = "INSERT INTO billItem (billSerialNumber, itemCode, qtyperitem, priceperitem, totalamount) VALUES (?, ?, ?, ?, ?)";
         String updateItemQty = "UPDATE item SET qtyonshelf = qtyonshelf - ? WHERE itemcode = ?";
@@ -273,11 +280,19 @@ public class BillDirector{
         }
     }
 
+    public void checkState() {
+        Context context=new Context();
+        state.checkState(context);
+    }
+
+
     public static void main(String[] args) {
         BillBuilder builder = new ConcreteBillBuilder();
-
         new BillDirector(builder);
-
+        BillDirector billDirector=new BillDirector(builder);
+        billDirector.checkState();
+        
 
     }
+
 }
