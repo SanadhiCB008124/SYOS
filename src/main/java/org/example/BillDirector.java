@@ -16,11 +16,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-public class BillDirector{
+public class BillDirector {
 
-    private  POSState state;
+    private POSState state;
     private BillBuilder builder;
-
     private JComboBox<String> paymentStrategyComboBox;
     private Map<String, PaymentStrategy> strategyMap;
     private JFrame frame;
@@ -29,17 +28,18 @@ public class BillDirector{
     private JTextField tfQuantity;
     private JTextField tfDiscount;
     private JTextField tfCashTendered;
-    private JTextArea taBillDetails;
+    private JPanel itemsPanel;
+    private JScrollPane scrollPane;
     private JTextField tfSubtotal;
 
     private int totalQuantitiesSold;
     private List<BillItem> billItems = new ArrayList<>();
     private double subTotal = 0.0;
 
+    private List<Command> commands = new ArrayList<>();
 
     public BillDirector(BillBuilder builder) {
-
-        this.state=new ProcessState();
+        this.state = new ProcessState();
         this.builder = builder;
         this.strategyMap = new HashMap<>();
         strategyMap.put("Cash", new CashPayment());
@@ -90,8 +90,6 @@ public class BillDirector{
         tfCashTendered = new JTextField(20);
         panel.add(tfCashTendered);
 
-
-
         JButton finalizeButton = new JButton("Finalize Bill");
         panel.add(finalizeButton);
         finalizeButton.addActionListener(new ActionListener() {
@@ -106,9 +104,9 @@ public class BillDirector{
         panel.add(new JLabel("Subtotal:"));
         panel.add(tfSubtotal);
 
-        taBillDetails = new JTextArea(10, 40);
-        taBillDetails.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(taBillDetails);
+        itemsPanel = new JPanel();
+        itemsPanel.setLayout(new BoxLayout(itemsPanel, BoxLayout.Y_AXIS));
+        scrollPane = new JScrollPane(itemsPanel);
 
         frame.add(panel, BorderLayout.NORTH);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -120,22 +118,12 @@ public class BillDirector{
         try {
             int itemCode = Integer.parseInt(tfItemCode.getText());
             int quantity = Integer.parseInt(tfQuantity.getText());
-
             Item item = fetchItemDetails(itemCode);
+
             if (item != null) {
-                String itemName = item.getProduct().getProductName();
-                double totalPrice = item.getUnitPrice() * quantity;
-                totalQuantitiesSold += quantity;
-                subTotal += totalPrice;
-
-                BillItem billItem = new BillItem(item.getItemCode(), itemName, quantity, item.getUnitPrice(), totalPrice, item);
-                billItems.add(billItem);
-                taBillDetails.append(String.format("Item: %s, Quantity: %d, Unit Price: %.2f, Total Price: %.2f%n ",
-                        itemName, quantity, item.getUnitPrice(), totalPrice));
-
-
-                tfSubtotal.setText(String.format("%.2f", subTotal));
-
+                Command addItemCommand = new AddItemCommand(this, item, quantity);
+                commands.add(addItemCommand);
+                addItemCommand.execute();
             } else {
                 JOptionPane.showMessageDialog(frame, "Item with code " + itemCode + " not found.");
             }
@@ -144,8 +132,89 @@ public class BillDirector{
         }
     }
 
-    private void finalizeBill() {
-        state=new FinalizedState();
+    public void addItemToBill(Item item, int quantity) {
+        String itemName = item.getProduct().getProductName();
+        double totalPrice = item.getUnitPrice() * quantity;
+        totalQuantitiesSold += quantity;
+        subTotal += totalPrice;
+
+        BillItem billItem = new BillItem(item.getItemCode(), itemName, quantity, item.getUnitPrice(), totalPrice, item);
+        billItems.add(billItem);
+        addItemToPanel(billItem);
+
+        tfSubtotal.setText(String.format("%.2f", subTotal));
+    }
+
+    private void addItemToPanel(BillItem billItem) {
+        JPanel itemPanel = new JPanel();
+        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
+
+        JLabel itemLabel = new JLabel(String.format("Item: %s, Quantity: %d, Unit Price: %.2f, Total Price: %.2f",
+                billItem.getItemName(), billItem.getQuantity(), billItem.getUnitPrice(), billItem.getTotalPrice()));
+
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeItemFromBill(billItem.getItemCode(), itemPanel);
+            }
+        });
+
+        itemPanel.add(itemLabel);
+        itemPanel.add(removeButton);
+
+        itemsPanel.add(itemPanel);
+        itemsPanel.revalidate();
+        itemsPanel.repaint();
+    }
+
+    private void removeItemFromBill(int itemCode, JPanel itemPanel) {
+        BillItem itemToRemove = null;
+        for (BillItem item : billItems) {
+            if (item.getItemCode() == itemCode) {
+                itemToRemove = item;
+                break;
+            }
+        }
+
+        if (itemToRemove != null) {
+            Command removeItemCommand=new RemoveItemCommand(this, itemToRemove.getItem(),itemToRemove.getQuantity());
+            removeItemCommand.execute();
+            commands.add(removeItemCommand);
+        } else {
+            JOptionPane.showMessageDialog(frame, "Item with code " + itemCode + " not found in the bill.");
+        }
+    }
+
+    public void removeItemFromBill(int itemCode, int quantity) {
+        BillItem itemToRemove = null;
+        for (BillItem item : billItems) {
+            if (item.getItemCode() == itemCode) {
+                itemToRemove = item;
+                break;
+            }
+        }
+
+        if (itemToRemove != null) {
+            billItems.remove(itemToRemove);
+            totalQuantitiesSold -= quantity;
+            subTotal -= itemToRemove.getTotalPrice();
+
+            itemsPanel.removeAll();
+            for (BillItem item : billItems) {
+                addItemToPanel(item);
+            }
+            itemsPanel.revalidate();
+            itemsPanel.repaint();
+
+            tfSubtotal.setText(String.format("%.2f", subTotal));
+        } else {
+            JOptionPane.showMessageDialog(frame, "Item with code " + itemCode + " not found in the bill.");
+        }
+    }
+
+    void finalizeBill() {
+        state = new FinalizedState();
         try {
             int billSerialNumber = Integer.parseInt(tfBillSerialNumber.getText());
             double discount = Double.parseDouble(tfDiscount.getText());
@@ -155,9 +224,6 @@ public class BillDirector{
             String selectedPaymentStrategy = (String) paymentStrategyComboBox.getSelectedItem();
             PaymentStrategy strategy = strategyMap.get(selectedPaymentStrategy);
             PaymentContext paymentContext = new PaymentContext(strategy);
-
-
-
 
             Date dateOfBill = new Date();
 
@@ -172,14 +238,13 @@ public class BillDirector{
             builder.addTotalQuantitiesSold(totalQuantitiesSold);
             builder.addPaymentMethod(selectedPaymentStrategy);
 
-
             Bill bill = builder.getBill();
             paymentContext.executeStrategy(bill);
             saveBill(bill);
 
-            taBillDetails.append(String.format("%nSubtotal: %.2f%nDiscount: %.2f%nNet Total: %.2f%nCash Tendered: %.2f%nChange Amount: %.2f%n",
-                    subTotal, discount, netTotal, cashTendered, changeAmount));
-
+            tfSubtotal.setText(String.format("Subtotal:",
+                    subTotal));
+            JOptionPane.showMessageDialog(frame,"Bill added successfully");
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(frame, "Invalid input. Please enter valid numbers for discount and cash tendered.");
@@ -199,8 +264,6 @@ public class BillDirector{
                     String itemDescription = rs.getString("itemdescription");
                     double unitPrice = rs.getDouble("unitprice");
                     Product product = fetchProductDetails(productId);
-
-
 
                     item = new Item(itemCode, itemDescription, unitPrice, product);
                 }
