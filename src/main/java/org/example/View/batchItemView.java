@@ -12,9 +12,10 @@ public class batchItemView extends JFrame {
     private JButton addBatchItem = new JButton("Add");
     private JTextField newBatchItem = new JTextField(50);
 
-
     private JTextField expiryDate = new JFormattedTextField("yyyy-MM-dd");
     private JTextField manufactureDate = new JFormattedTextField("yyyy-MM-dd");
+
+    private JTextField batchDate = new JFormattedTextField("yyyy-MM-dd");
 
 
 
@@ -34,6 +35,8 @@ public class batchItemView extends JFrame {
         batchItemPanel.add(expiryDate);
         batchItemPanel.add(new JLabel("Manufacture Date:"));
         batchItemPanel.add(manufactureDate);
+        batchItemPanel.add(new JLabel("Batch Date:"));
+        batchItemPanel.add(batchDate);
 
 
         batchItemPanel.add(addBatchItem);
@@ -65,11 +68,16 @@ public class batchItemView extends JFrame {
     public Date getManufactureDate(){
         return  Date.valueOf(manufactureDate.getText());
     }
+
+    public Date getBatchDate(){
+        return  Date.valueOf(batchDate.getText());
+    }
+
   
 
 
-    public void setBatchItem(Integer itemCode, Integer batchCode, Integer quantityInStock, Date expiryDate, Date manufactureDate) {
-        newBatchItem.setText("Item Code: " + itemCode + ", Batch Code: " + batchCode + ", Quantity in Stock: " + quantityInStock+ "Manufacture Date:"+ manufactureDate+"Date of Expire:"+expiryDate);
+    public void setBatchItem(Integer itemCode, Integer batchCode, Integer quantityInStock, Date expiryDate, Date manufactureDate,Date batchDate) {
+        newBatchItem.setText("Item Code: " + itemCode + ", Batch Code: " + batchCode + ", Quantity in Stock: " + quantityInStock+ "Manufacture Date:"+ manufactureDate+"Date of Expire:"+expiryDate+"Batch Date:"+batchDate);
     }
 
 

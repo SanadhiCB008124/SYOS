@@ -10,28 +10,28 @@ import java.sql.Date;
 public class Stock {
 
     private Integer batchCode;
-    private java.util.Date batchDate;
+    private Date batchDate;
 
     public Stock(int code, Date date) {
-        this.batchCode=code;
-        this.batchDate=date;
+        this.batchCode = code;
+        this.batchDate = date;
     }
 
     public Stock() {
-        
+
     }
 
-    public void addStockRecord(Integer batchCode, java.util.Date batchDate) {
+    public void addStockRecord(Integer batchCode, Date batchDate) {
         this.batchCode = batchCode;
         this.batchDate = batchDate;
 
-        String SQL_INSERT = "INSERT INTO stock ( batchCode, batchDate) VALUES ( ?, ?)";
+        String SQL_INSERT = "INSERT INTO stock (batchCode, batchDate) VALUES (?, ?)";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
 
             pstmt.setInt(1, batchCode);
-            pstmt.setDate(2, new java.sql.Date(batchDate.getTime()));
+            pstmt.setDate(2, batchDate);
 
             pstmt.executeUpdate();
 
@@ -40,13 +40,11 @@ public class Stock {
         }
     }
 
-
-
     public Integer getBatchCode() {
         return batchCode;
     }
 
-    public java.util.Date getBatchDate() {
+    public Date getBatchDate() {
         return batchDate;
     }
 
@@ -54,3 +52,4 @@ public class Stock {
         return batchCode;
     }
 }
+

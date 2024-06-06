@@ -25,6 +25,7 @@ public class batchItemController {
         public void actionPerformed(ActionEvent e) {
             java.sql.Date expiryDate;
             java.sql.Date manufactureDate;
+            java.sql.Date batchDate;
 
             try {
                 Integer itemCode = Integer.parseInt(theView.getItemCode());
@@ -32,8 +33,9 @@ public class batchItemController {
                 Integer quantityInStock = Integer.parseInt(theView.getQuantityInStock().getText());
                 expiryDate = theView.getExpiryDate();
                 manufactureDate=theView.getManufactureDate();
+                batchDate=theView.getBatchDate();
 
-                theModel.addBatchItems(batchCode, itemCode, quantityInStock,manufactureDate,expiryDate);
+                theModel.addBatchItems(batchCode, itemCode, quantityInStock,manufactureDate,expiryDate,batchDate);
                 theView.displaySuccessMessage("Batch item added successfully.");
             } catch (NumberFormatException ex) {
                 theView.displayError("Invalid input. Please enter valid numbers.");
