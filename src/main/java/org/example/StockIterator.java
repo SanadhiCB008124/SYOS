@@ -16,6 +16,8 @@ public class StockIterator implements Iterator {
     }
 
 
+
+
     public void loadStock(){
 
         String SQL_SELECT = "SELECT batchitemid, itemcode, batchcode,quantityinstock,expirydate,manufacturedate,batchdate FROM batchitem";
