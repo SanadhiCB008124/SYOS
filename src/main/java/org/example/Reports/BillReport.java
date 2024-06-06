@@ -7,7 +7,7 @@ import org.example.Report;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillReport extends Report {
+public class BillReport extends Report  {
 
     private List<Bill> bills=new ArrayList<>();
 

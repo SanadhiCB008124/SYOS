@@ -3,10 +3,10 @@ package org.example;
 
 import org.example.Controller.ProductController;
 
-public class MVCProduct {
-    public static void main(String[] args) {
+public class ProductTaskInterface implements PointOfSales {
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> DatabaseConfiguration.Database.closeConnection()));
+    @Override
+    public void getInterface() {
 
         ProductView view = new ProductView();
         Product model = new Product();

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -20,37 +21,41 @@ public class Main {
         }
 
 
-       /* Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter payment method: 1.Cash");
-        int choice = scanner.nextInt();*/
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Print report: ");
+        int choice=scanner.nextInt();
+        if(choice==1){
+            ReportFacade reportFacade = new ReportFacade();
+            reportFacade.generateStockReport();
+        } else if (choice==2) {
+            ReportFacade reportFacade = new ReportFacade();
+            reportFacade.generateReOrderReport();
+        } else if (choice==3) {
+            ReportFacade reportFacade = new ReportFacade();
+            reportFacade.generateBillReport();
+        } else if (choice==4) {
+            ReportFacade reportFacade = new ReportFacade();
+            reportFacade.generateSalesReport();
+        } else if (choice==5) {
+            ReportFacade reportFacade = new ReportFacade();
+            reportFacade.generateEndOfDayReport();
+        } else {
+            System.out.println("Invalid choice");
+        }
 
 
-        Stock Stock =new Stock();
-        new StockObserver(Stock);
-        Stock.checkLowStock();
+        Scanner scanner1=new Scanner(System.in);
+        System.out.println("MENU " +
+                "1. Add Bill " +
+                "2. Customer Management " +
+                "3. Product Management " +
+                "4. Stock Management " +
+                "5. Shelf Management ");
 
-
-        System.out.println("first state change");
-        Stock.setQuantityInStock(10);
-
-
-        Item item =new Item();
-        new ShelfObserver(item);
-        item.setQuantityOnShelf(1);
-        item.checkLowStock(1);
-
-
-
-        ReportFacade reportFacade = new ReportFacade();
-        reportFacade.generateStockReport();
-        reportFacade.generateReOrderReport();
-        reportFacade.generateBillReport();
-        reportFacade.generateSalesReport();
-
-
-
-        System.out.println("Generating End of Day Report...");
-        reportFacade.generateEndOfDayReport();
+        int choice1=scanner1.nextInt();
+        PointOfSalesMenu pointOfSalesMenu = new PointOfSalesMenu();
+        PointOfSales pointOfSales = pointOfSalesMenu.getInterface(choice1);
+        pointOfSales.getInterface();
 
 
 

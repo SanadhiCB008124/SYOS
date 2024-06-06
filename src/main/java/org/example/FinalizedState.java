@@ -15,7 +15,7 @@ public class FinalizedState implements POSState{
 
     @Override
     public void processBill(StateContext stateContext, BillDirector director) {
-        System.out.println("Will start processing");
+        System.out.println("Bill processed");
         stateContext.setState(new ProcessState());
     }
 
