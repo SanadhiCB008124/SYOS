@@ -19,7 +19,6 @@ import java.util.HashMap;
 public class BillDirector {
 
     private POSState state;
-
     private StateContext stateContext;
     private BillBuilder builder;
     private JComboBox<String> paymentStrategyComboBox;

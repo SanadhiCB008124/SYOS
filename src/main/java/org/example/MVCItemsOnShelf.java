@@ -6,8 +6,9 @@ import org.example.View.ItemsOnShelfView;
 public class MVCItemsOnShelf {
     public static  void main(String [] args){
         ItemsOnShelfView view = new ItemsOnShelfView();
+        ItemRepository itemRepository=new ItemRepository();
         Item model=new Item( );
-        ItemsOnShelfController controller = new ItemsOnShelfController(view, model);
+        ItemsOnShelfController controller = new ItemsOnShelfController(view, model,itemRepository);
 
         view.setVisible(true);
     }

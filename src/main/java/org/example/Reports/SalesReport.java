@@ -48,6 +48,8 @@ public class SalesReport extends Report {
 
                 Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold, paymentStrategy);
                 bills.add(bill);
+
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,11 +60,14 @@ public class SalesReport extends Report {
     @Override
     protected void getData() {
         System.out.println("Getting data for Sales Report");
+
     }
 
     @Override
     protected void createReport() {
         System.out.println("Creating Sales Report");
+        double totalRevenue=0.00;
+
 
         SalesPerDayCriteria salesPerDayCriteria = new SalesPerDayCriteria();
         List<Bill> filteredBills = salesPerDayCriteria.FilterBillsByDay(bills);
@@ -70,6 +75,9 @@ public class SalesReport extends Report {
 
         for (Bill bill : filteredBills) {
             System.out.println(bill);
+            totalRevenue+=bill.getNetTotal();
         }
+
+        System.out.println("Total Revenue"+ totalRevenue);
     }
 }

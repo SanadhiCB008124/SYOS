@@ -13,9 +13,12 @@ public class ItemsOnShelfController {
     private ItemsOnShelfView theView;
     private Item theModel;
 
-    public ItemsOnShelfController(ItemsOnShelfView theView, Item theModel) {
+    private ItemRepository itemRepository;
+
+    public ItemsOnShelfController(ItemsOnShelfView theView, Item theModel,ItemRepository itemRepository) {
         this.theView = theView;
         this.theModel = theModel;
+        this.itemRepository=itemRepository;
 
         initializeProducts();
         theView.addItemsOnShelfListener(new AddItemListener());
@@ -45,7 +48,7 @@ public class ItemsOnShelfController {
                 Product product = new Product(Integer.parseInt(theView.getProductID()), "");
 
 
-                theModel.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product);
+                itemRepository.addItemsOnShelf(itemCode, itemDescription, unitPrice, quantityOnShelf,product);
                 theView.displaySuccessMessage("Item added successfully!");
             } catch (Exception ex) {
                 ex.printStackTrace();

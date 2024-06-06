@@ -70,7 +70,6 @@ public class Item {
     }
 
 
-
     public Integer getQuantityOnShelf() {
         return quantityOnShelf;
     }
@@ -83,39 +82,6 @@ public class Item {
     public void checkLowStock(Integer quantityOnShelf){
         if(quantityOnShelf<10){
             notifyAllObservers();
-        }
-    }
-
-    public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product) {
-        if (quantityOnShelf > SHELF_SIZE) {
-            throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + SHELF_SIZE);
-        }
-
-        this.itemCode = itemCode;
-        this.itemDescription = itemDescription;
-        this.unitPrice = unitPrice;
-        this.quantityOnShelf = quantityOnShelf;
-        this.product = product;
-
-
-
-        String SQL_INSERT = "INSERT INTO item(itemcode, itemdescription, unitprice, qtyonshelf, productid) VALUES(?, ?, ?, ?, ?)";
-
-        try (Connection conn = Database.connect();
-             PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
-
-            pstmt.setInt(1, itemCode);
-            pstmt.setString(2, itemDescription);
-            pstmt.setDouble(3, unitPrice);
-            pstmt.setInt(4, quantityOnShelf);
-            pstmt.setInt(5, product.getProductID());
-
-
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error adding ItemsOnShelf to database: " + e.getMessage());
         }
     }
 
