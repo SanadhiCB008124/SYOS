@@ -43,6 +43,7 @@ public class Main {
 
         ReportFacade reportFacade = new ReportFacade();
         reportFacade.generateStockReport();
+        reportFacade.generateReOrderReport();
 
         System.out.println("Generating Sales Report...");
         reportFacade.generateSalesReport();
@@ -50,11 +51,7 @@ public class Main {
         System.out.println("Generating End of Day Report...");
         reportFacade.generateEndOfDayReport();
 
-        System.out.println("Generating ReOrder Report...");
-        reportFacade.generateReOrderReport();
 
-        System.out.println("Generating Stock Report...");
-        reportFacade.generateStockReport();
 
         Bill bill=new Bill();
         List<Bill> bills = bill.allBills();
