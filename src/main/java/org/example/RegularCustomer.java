@@ -1,8 +1,8 @@
 package org.example;
 
 public class RegularCustomer extends Customer{
-    public RegularCustomer(){
-        this.customerType="Regular";
+    public RegularCustomer(String customerFirstName, String customerLastName) {
+        super(customerFirstName, customerLastName);
     }
 
     @Override

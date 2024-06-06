@@ -12,12 +12,12 @@ public class ExpiryDateHandler implements BatchHandler{
     }
 
     @Override
-    public void handleMovingItemsToTheShelf(List<batchItem> batchItems) {
+    public void handleMovingItemsToTheShelf(List<Stock> Stocks) {
 
-        List<batchItem> sortedItems=new ArrayList<>();
+        List<Stock> sortedItems=new ArrayList<>();
 
 
-        for(batchItem item:batchItems){
+        for(Stock item: Stocks){
             if(item.getBatchDate().before(item.getExpiryDate())){
                 sortedItems.add(item);
             }

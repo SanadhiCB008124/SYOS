@@ -18,9 +18,6 @@ public class CustomerView extends JFrame {
     private Map<String, Customer> customerMap;
 
     public CustomerView() {
-
-
-
         JPanel customerPanel = new JPanel();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 200);

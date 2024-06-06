@@ -14,7 +14,6 @@ public class BillReport extends Report {
     }
     @Override
     protected void getData() {
-
         System.out.println("Getting data for Bill Report");
     }
 
@@ -31,7 +30,7 @@ public class BillReport extends Report {
             System.out.println("Sub Total: "+bill.getSubTotal());
             System.out.println("Date of Bill: "+bill.getDateOfBill());
             System.out.println("Total Quantities Sold: "+bill.getTotalQuantitiesSold());
-            System.out.println("Bill Items: ");
+            System.out.println("Bill Item: ");
             for(int i=0;i<bill.getBillItems().size();i++){
                 System.out.println("Item Code: "+bill.getBillItems().get(i).getItemCode());
                 System.out.println("Item Name: "+bill.getBillItems().get(i).getItemName());

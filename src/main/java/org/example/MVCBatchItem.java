@@ -9,8 +9,11 @@ public class MVCBatchItem {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> DatabaseConfiguration.Database.closeConnection()));
 
         batchItemView view = new batchItemView();
-        batchItem model = new batchItem();
-        batchItemController controller = new batchItemController(view, model);
+        Stock model = new Stock();
+
+        BatchItemRepository batchItemRepository = new BatchItemRepository(DatabaseConfiguration.Database.getInstance());
+        new batchItemController(view, model, batchItemRepository);
+
 
         view.setVisible(true);
     }

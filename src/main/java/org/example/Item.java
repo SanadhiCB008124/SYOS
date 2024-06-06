@@ -2,46 +2,36 @@ package org.example;
 import DatabaseConfiguration.Database;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Items {
+public class Item {
 
     private List<Observer> observers=new ArrayList<Observer>();
-
-    private static final int ShelfSize = 20;
-
+    private static final int SHELF_SIZE = 20;
     private Integer itemCode;
     private String itemDescription;
     private double unitPrice;
 
     private Integer quantityOnShelf;
     private Product product;
+    public Item() {}
 
-
-
-
-    public Items() {
-    }
-
-    public Items(Integer itemCode, String itemDescription, double unitPrice) {
+    public Item(Integer itemCode, String itemDescription, double unitPrice) {
         this.itemCode=itemCode;
         this.itemDescription=itemDescription;
         this.unitPrice=unitPrice;
     }
 
-    public Items(Integer itemCode, String itemDescription, double unitPrice, Product product) {
+    public Item(Integer itemCode, String itemDescription, double unitPrice, Product product) {
         this.itemCode=itemCode;
         this.itemDescription=itemDescription;
         this.unitPrice=unitPrice;
         this.product=product;
 
     }
-
-
     public Integer getItemCode() {
         return itemCode;
     }
@@ -90,8 +80,6 @@ public class Items {
         notifyAllObservers();
     }
 
-    
-
     public void checkLowStock(Integer quantityOnShelf){
         if(quantityOnShelf<10){
             notifyAllObservers();
@@ -99,8 +87,8 @@ public class Items {
     }
 
     public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product) {
-        if (quantityOnShelf > ShelfSize) {
-            throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + ShelfSize);
+        if (quantityOnShelf > SHELF_SIZE) {
+            throw new IllegalArgumentException("Quantity on shelf cannot be greater than " + SHELF_SIZE);
         }
 
         this.itemCode = itemCode;

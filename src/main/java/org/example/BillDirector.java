@@ -121,7 +121,7 @@ public class BillDirector{
             int itemCode = Integer.parseInt(tfItemCode.getText());
             int quantity = Integer.parseInt(tfQuantity.getText());
 
-            Items item = fetchItemDetails(itemCode);
+            Item item = fetchItemDetails(itemCode);
             if (item != null) {
                 String itemName = item.getProduct().getProductName();
                 double totalPrice = item.getUnitPrice() * quantity;
@@ -186,8 +186,8 @@ public class BillDirector{
         }
     }
 
-    public Items fetchItemDetails(int itemCode) {
-        Items item = null;
+    public Item fetchItemDetails(int itemCode) {
+        Item item = null;
         String query = "SELECT itemcode, itemdescription, unitprice, productid FROM item WHERE itemcode = ?";
 
         try (Connection conn = Database.connect();
@@ -202,7 +202,7 @@ public class BillDirector{
 
 
 
-                    item = new Items(itemCode, itemDescription, unitPrice, product);
+                    item = new Item(itemCode, itemDescription, unitPrice, product);
                 }
             }
         } catch (SQLException e) {

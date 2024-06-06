@@ -1,23 +1,21 @@
 package org.example.Controller;
 
-import org.example.batchItem;
+import org.example.BatchItemRepository;
+import org.example.Stock;
 import org.example.View.batchItemView;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 public class batchItemController {
 
     private batchItemView theView;
-    private batchItem theModel;
+    private Stock theModel;
+    private BatchItemRepository batchItemRepository;
 
-    public batchItemController(batchItemView theView, batchItem theModel) {
+    public batchItemController(batchItemView theView, Stock theModel, BatchItemRepository batchItemRepository) {
         this.theView = theView;
         this.theModel = theModel;
-
-
+        this.batchItemRepository=batchItemRepository;
         this.theView.addBatchItemListener(new AddBatchItemListener());
     }
 
@@ -35,7 +33,7 @@ public class batchItemController {
                 manufactureDate=theView.getManufactureDate();
                 batchDate=theView.getBatchDate();
 
-                theModel.addBatchItems(batchCode, itemCode, quantityInStock,manufactureDate,expiryDate,batchDate);
+                batchItemRepository.addBatchItems(batchCode, itemCode, quantityInStock,manufactureDate,expiryDate,batchDate);
                 theView.displaySuccessMessage("Batch item added successfully.");
             } catch (NumberFormatException ex) {
                 theView.displayError("Invalid input. Please enter valid numbers.");

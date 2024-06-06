@@ -9,12 +9,12 @@ public class BillItem {
     private int quantity;
     private double unitPrice;
     private double totalPrice;
-    private Items item;
+    private Item item;
 
     public BillItem() {
     }
 
-    public BillItem(Integer itemCode,String itemName, int quantity, double unitPrice, double totalPrice, Items item) {
+    public BillItem(Integer itemCode,String itemName, int quantity, double unitPrice, double totalPrice, Item item) {
         this.itemCode = itemCode;
         this.itemName = itemName;
         this.quantity = quantity;
@@ -90,11 +90,11 @@ public class BillItem {
         this.itemDescription = itemDescription;
     }
 
-    public Items getItem() {
+    public Item getItem() {
         return item;
     }
 
-    public void setItem(Items item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 }

@@ -42,8 +42,6 @@ public class batchItemView extends JFrame {
         batchItemPanel.add(addBatchItem);
         batchItemPanel.add(new JLabel("Batch Item:"));
 
-
-
         this.add(batchItemPanel);
     }
 
@@ -63,8 +61,6 @@ public class batchItemView extends JFrame {
         return  Date.valueOf(expiryDate.getText());
     }
 
-    
-
     public Date getManufactureDate(){
         return  Date.valueOf(manufactureDate.getText());
     }
@@ -72,14 +68,6 @@ public class batchItemView extends JFrame {
     public Date getBatchDate(){
         return  Date.valueOf(batchDate.getText());
     }
-
-  
-
-
-    public void setBatchItem(Integer itemCode, Integer batchCode, Integer quantityInStock, Date expiryDate, Date manufactureDate,Date batchDate) {
-        newBatchItem.setText("Item Code: " + itemCode + ", Batch Code: " + batchCode + ", Quantity in Stock: " + quantityInStock+ "Manufacture Date:"+ manufactureDate+"Date of Expire:"+expiryDate+"Batch Date:"+batchDate);
-    }
-
 
     public void displaySuccessMessage(String message) {
         JOptionPane.showMessageDialog(this, message);

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -26,17 +25,21 @@ public class Main {
         int choice = scanner.nextInt();*/
 
 
-        batchItem batchItem=new batchItem();
-        new StockObserver(batchItem);
+        Stock Stock =new Stock();
+        new StockObserver(Stock);
+        Stock.checkLowStock();
+
 
         System.out.println("first state change");
-        batchItem.setQuantityInStock(10);
+        Stock.setQuantityInStock(10);
 
 
-        Items items=new Items();
-        new ShelfObserver(items);
-        items.setQuantityOnShelf(1);
-        items.checkLowStock(1);
+        Item item =new Item();
+        new ShelfObserver(item);
+        item.setQuantityOnShelf(1);
+        item.checkLowStock(1);
+
+
 
         ReportFacade reportFacade = new ReportFacade();
 

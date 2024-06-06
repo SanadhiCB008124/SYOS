@@ -1,19 +1,20 @@
 package org.example;
 
 public class StockObserver extends Observer{
+    private Stock Stock;
 
-    public StockObserver(batchItem batchItem){
-        this.batchItem=batchItem;
-        this.batchItem.attach(this);
+    public StockObserver(Stock Stock){
+        this.Stock = Stock;
+        this.Stock.attach(this);
     }
     @Override
     public void update() {
-        System.out.println("Observer is updated"+batchItem.getQuantityInStock());
+        System.out.println("Observer is updated"+ Stock.getQuantityInStock());
     }
 
     @Override
     public void lowStockAlert() {
-        System.out.println("Low Stock ! Re-order "+batchItem.getQuantityInStock() );
+        System.out.println("Low Stock ! Re-order "+ Stock.getQuantityInStock() );
     }
 
 

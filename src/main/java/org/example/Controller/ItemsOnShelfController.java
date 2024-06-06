@@ -11,9 +11,9 @@ import java.util.List;
 public class ItemsOnShelfController {
 
     private ItemsOnShelfView theView;
-    private Items theModel;
+    private Item theModel;
 
-    public ItemsOnShelfController(ItemsOnShelfView theView, Items theModel) {
+    public ItemsOnShelfController(ItemsOnShelfView theView, Item theModel) {
         this.theView = theView;
         this.theModel = theModel;
 

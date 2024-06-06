@@ -137,7 +137,7 @@ public class Bill  {
                 double subTotal = rs.getDouble("subtotal");
                 Date dateOfBill = rs.getDate("dateofbill");
                 int totalQuantitiesSold = rs.getInt("totalquantitiessold");
-                String paymentStrategy = rs.getString("paymentstrategy");
+                String paymentStrategy = rs.getString("paymentmethod");
 
                 List<BillItem> billItems = new ArrayList<>();
                 try (PreparedStatement ps = conn.prepareStatement(sqlItems)) {
@@ -168,7 +168,7 @@ public class Bill  {
         StringBuilder sb = new StringBuilder();
         sb.append("Bill Serial Number: ").append(billSerialNumber).append("\n");
         sb.append("Date: ").append(dateOfBill).append("\n");
-        sb.append("Items:\n");
+        sb.append("Item:\n");
         sb.append(String.format("%-10s %-20s %-10s %-10s %-10s\n", "ItemCode", "ItemName", "Quantity", "Unit Price", "Total Price"));
         for (BillItem item : billItems) {
             sb.append(String.format("%-10d %-20s %-10d %-10.2f %-10.2f\n", item.getItemCode(), item.getItemName(), item.getQuantity(), item.getUnitPrice(), item.getTotalPrice()));

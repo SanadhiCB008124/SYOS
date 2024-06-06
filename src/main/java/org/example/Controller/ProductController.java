@@ -4,14 +4,12 @@ import org.example.Product;
 import org.example.ProductCategory;
 import org.example.ProductCategoryIterator;
 import org.example.ProductView;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductController {
-
     private ProductView theView;
     private Product theModel;
 

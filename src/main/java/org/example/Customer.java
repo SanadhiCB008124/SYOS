@@ -9,28 +9,12 @@ public abstract class Customer {
 
     private int customerID;
     private String customerName;
+    protected String customerType;
 
-    String customerType;
-
-    public void addCustomer(String customerFirstName, String customerLastName) {
-        customerName = customerFirstName + " " + customerLastName;
-
-        String SQL_INSERT = "INSERT INTO Customer (customerName,customertype) VALUES (?,?)";
-
-        try (Connection conn = Database.connect();
-             PreparedStatement pstmt = conn.prepareStatement(SQL_INSERT)) {
-
-            pstmt.setString(1, customerName);
-            pstmt.setString(2, customerType);
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("Error adding customer to database: " + e.getMessage());
-        }
+    public Customer(String customerFirstName, String customerLastName) {
+        this.customerName = customerFirstName + " " + customerLastName;
+        setCustomerType();
     }
-
-
-
     public String getCustomerName() {
         return customerName;
     }

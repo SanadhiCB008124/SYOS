@@ -21,17 +21,17 @@ public class StockToShelf {
     public void moveItemsToShelfFromDatabase() {
         try (Connection conn = Database.connect()) {
             // get batch items from the database
-            List<batchItem> batchItems = retrieveBatchItemsFromDatabase(conn);
+            List<Stock> Stocks = retrieveBatchItemsFromDatabase(conn);
 
             // Move items to shelf
-            batchHandler.handleMovingItemsToTheShelf(batchItems);
+            batchHandler.handleMovingItemsToTheShelf(Stocks);
         } catch (SQLException e) {
             System.out.println("Error moving items to shelf: " + e.getMessage());
         }
     }
 
-    private List<batchItem> retrieveBatchItemsFromDatabase(Connection conn) throws SQLException {
-        List<batchItem> batchItems = new ArrayList<>();
+    private List<Stock> retrieveBatchItemsFromDatabase(Connection conn) throws SQLException {
+        List<Stock> Stocks = new ArrayList<>();
         String SQL_SELECT = "SELECT * FROM batchItem";
 
         try (PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT)) {
@@ -45,11 +45,11 @@ public class StockToShelf {
                 Date expiryDate = rs.getDate("expiryDate");
                 Date batchDate = rs.getDate("batchDate");
 
-                batchItems.add(new batchItem(batchItemId, batchCode, itemCode, quantityInStock, expiryDate, manufactureDate,batchDate));
+                Stocks.add(new Stock(batchItemId, batchCode, itemCode, quantityInStock, expiryDate, manufactureDate,batchDate));
             }
         }
 
-        return batchItems;
+        return Stocks;
     }
 
     public static void main(String[] args) {

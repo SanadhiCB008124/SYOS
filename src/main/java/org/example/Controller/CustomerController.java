@@ -1,9 +1,6 @@
 package org.example.Controller;
 
-import org.example.CashPayment;
-import org.example.CreditCardPayment;
-import org.example.Customer;
-import org.example.CustomerFactory;
+import org.example.*;
 import org.example.View.CustomerView;
 
 import java.awt.event.ActionEvent;
@@ -11,13 +8,12 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class CustomerController {
-
     private CustomerView theView;
-    private Customer theModel;
+    private CustomerRepository customerRepository;
 
-    public CustomerController(CustomerView theView, Customer theModel) {
+    public CustomerController(CustomerView theView,CustomerRepository customerRepository) {
         this.theView = theView;
-        this.theModel = theModel;
+        this.customerRepository=customerRepository;
 
         this.theView.addCustomerListener(new CustomerListener());
 
@@ -36,8 +32,8 @@ public class CustomerController {
                 customerLastName = theView.getCustomerLastName();
                 customerType=theView.getCustomerType();
 
-                theModel = CustomerFactory.createCustomer(customerType);
-                theModel.addCustomer(customerFirstName, customerLastName);
+                Customer theModel = CustomerFactory.createCustomer(customerType,customerFirstName,customerLastName);
+                customerRepository.addCustomer(theModel);
                 theView.setCustomerName(theModel.getCustomerName());
                 theView.displaySuccessMessage("Customer added successfully!");
             } catch (Exception exception) {
