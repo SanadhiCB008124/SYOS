@@ -42,6 +42,7 @@ public class Main {
 
 
         ReportFacade reportFacade = new ReportFacade();
+        reportFacade.generateStockReport();
 
         System.out.println("Generating Sales Report...");
         reportFacade.generateSalesReport();
