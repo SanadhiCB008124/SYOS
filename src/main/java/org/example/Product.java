@@ -1,10 +1,5 @@
 package org.example;
 
-import DatabaseConfiguration.Database;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 public class Product{
     private int productID;
     private String productName;

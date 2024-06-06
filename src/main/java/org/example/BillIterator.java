@@ -1,4 +1,4 @@
-package org.example.Reports;
+package org.example;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,15 +6,20 @@ import java.util.Date;
 import java.util.List;
 
 import DatabaseConfiguration.Database;
-import org.example.*;
 
-public class SalesReport extends Report {
-    private List<Bill> bills = loadAllBills();
+public class BillIterator implements Iterator{
 
-    public List<Bill> loadAllBills() {
-        List<Bill> bills = new ArrayList<>();
+    private List<Bill> bills;
+    private int position=0;
+
+    public BillIterator(List<Bill> bills) {
+        this.bills = bills;
+    }
+
+    public List<Bill> loadAllBills(){
         String sql = "SELECT * FROM bill";
         String sqlItems = "SELECT * FROM billitem WHERE billserialnumber = ?";
+
         try (Connection conn = Database.connect();
              Statement statement = conn.createStatement();
              ResultSet rs = statement.executeQuery(sql)) {
@@ -46,30 +51,24 @@ public class SalesReport extends Report {
                     }
                 }
 
-                Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold, paymentStrategy);
+                Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold,paymentStrategy);
                 bills.add(bill);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return bills;
+
+        return null;
+    }
+
+
+    @Override
+    public boolean hasNext() {
+        return false;
     }
 
     @Override
-    protected void getData() {
-        System.out.println("Getting data for Sales Report");
-    }
-
-    @Override
-    protected void createReport() {
-        System.out.println("Creating Sales Report");
-
-        SalesPerDayCriteria salesPerDayCriteria = new SalesPerDayCriteria();
-        List<Bill> filteredBills = salesPerDayCriteria.FilterBillsByDay(bills);
-        salesPerDayCriteria.FilterBillsByDay(bills);
-
-        for (Bill bill : filteredBills) {
-            System.out.println(bill);
-        }
+    public Object next() {
+        return null;
     }
 }

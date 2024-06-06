@@ -44,19 +44,16 @@ public class Main {
         ReportFacade reportFacade = new ReportFacade();
         reportFacade.generateStockReport();
         reportFacade.generateReOrderReport();
-
-        System.out.println("Generating Sales Report...");
+        reportFacade.generateBillReport();
         reportFacade.generateSalesReport();
+
+
 
         System.out.println("Generating End of Day Report...");
         reportFacade.generateEndOfDayReport();
 
 
 
-        Bill bill=new Bill();
-        List<Bill> bills = bill.allBills();
-        System.out.println("Generating Bill Report...");
-        reportFacade.generateBillReport(bills);
 
     }
 }

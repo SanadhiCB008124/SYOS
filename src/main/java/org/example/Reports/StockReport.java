@@ -10,6 +10,7 @@ import java.util.List;
 public class StockReport extends Report {
 
     private List<Stock> stocks=new ArrayList<>();
+    
     @Override
     protected void getData() {
 

@@ -2,10 +2,13 @@ package org.example;
 
 import org.example.Reports.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportFacade {
+
     public void generateSalesReport() {
+
         Report report = new SalesReport();
         report.reportGenerator();
     }
@@ -25,8 +28,8 @@ public class ReportFacade {
         report.reportGenerator();
     }
 
-    public void generateBillReport(List<Bill> bills) {
-        Report report = new BillReport(bills);
+    public void generateBillReport() {
+        Report report = new BillReport();
         report.reportGenerator();
     }
 }

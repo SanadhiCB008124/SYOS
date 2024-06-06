@@ -1,20 +1,22 @@
 package org.example.Reports;
 
 import org.example.Bill;
+import org.example.BillIterator;
 import org.example.Report;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillReport extends Report {
 
-    private List<Bill> bills;
+    private List<Bill> bills=new ArrayList<>();
 
-    public BillReport(List<Bill> bills) {
-        this.bills = bills;
-    }
+   
     @Override
     protected void getData() {
         System.out.println("Getting data for Bill Report");
+        BillIterator billIterator=new BillIterator(bills);
+        billIterator.loadAllBills();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class BillReport extends Report {
                 System.out.println("Item Price: "+bill.getBillItems().get(i).getUnitPrice());
                 System.out.println("Item Total: "+bill.getBillItems().get(i).getTotalPrice());
             }
-
+            System.out.println("---------------------------------------------");
         }
     }
 
