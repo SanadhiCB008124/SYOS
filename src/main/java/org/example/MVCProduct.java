@@ -10,7 +10,8 @@ public class MVCProduct {
 
         ProductView view = new ProductView();
         Product model = new Product();
-        ProductController controller = new ProductController(view, model);
+        ProductRepository productRepository=new ProductRepository();
+        ProductController controller = new ProductController(view, model,productRepository);
 
         view.setVisible(true);
     }

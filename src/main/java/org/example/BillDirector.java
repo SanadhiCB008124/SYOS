@@ -19,6 +19,8 @@ import java.util.HashMap;
 public class BillDirector {
 
     private POSState state;
+
+    private StateContext stateContext;
     private BillBuilder builder;
     private JComboBox<String> paymentStrategyComboBox;
     private Map<String, PaymentStrategy> strategyMap;
@@ -39,8 +41,8 @@ public class BillDirector {
     private List<Command> commands = new ArrayList<>();
 
     public BillDirector(BillBuilder builder) {
-        this.state = new ProcessState();
         this.builder = builder;
+        this.stateContext=new StateContext();
         this.strategyMap = new HashMap<>();
         strategyMap.put("Cash", new CashPayment());
         strategyMap.put("Credit Card", new CreditCardPayment());
@@ -246,6 +248,7 @@ public class BillDirector {
                     subTotal));
             JOptionPane.showMessageDialog(frame,"Bill added successfully");
 
+            stateContext.processBill(this);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(frame, "Invalid input. Please enter valid numbers for discount and cash tendered.");
         }
@@ -294,7 +297,7 @@ public class BillDirector {
 
     public void saveBill(Bill bill) {
 
-        state=new SavedState();
+        state=new FinalizedState();
 
         String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)";
         String billItemSQL = "INSERT INTO billItem (billSerialNumber, itemCode, qtyperitem, priceperitem, totalamount) VALUES (?, ?, ?, ?, ?)";
@@ -349,8 +352,7 @@ public class BillDirector {
     }
 
     public void checkState() {
-        Context context=new Context();
-        state.checkState(context);
+        stateContext.checkState();
     }
 
 
@@ -358,7 +360,6 @@ public class BillDirector {
         BillBuilder builder = new ConcreteBillBuilder();
         BillDirector billDirector=new BillDirector(builder);
         billDirector.checkState();
-
 
     }
 

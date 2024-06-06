@@ -1,9 +1,7 @@
 package org.example.Controller;
 
-import org.example.Product;
-import org.example.ProductCategory;
-import org.example.ProductCategoryIterator;
-import org.example.ProductView;
+import org.example.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,10 +10,12 @@ import java.util.List;
 public class ProductController {
     private ProductView theView;
     private Product theModel;
+    private ProductRepository productRepository;
 
-    public ProductController(ProductView theView, Product theModel) {
+    public ProductController(ProductView theView, Product theModel,ProductRepository productRepository) {
         this.theView = theView;
         this.theModel = theModel;
+        this.productRepository=productRepository;
 
         initializeProductCategories();
         this.theView.addProductListener(new ProductListener());
@@ -41,7 +41,7 @@ public class ProductController {
                 ProductCategory selectedCategory = theView.getSelectedProductCategory();
                 productCategoryID = selectedCategory.getProductCategoryId();
 
-                theModel.addProduct(productName, productCategoryID);
+                productRepository.addProduct(productName, productCategoryID);
                 theView.setProduct(productName, selectedCategory.getProductCategoryName());
                 theView.displaySuccessMessage("Product added successfully!");
 

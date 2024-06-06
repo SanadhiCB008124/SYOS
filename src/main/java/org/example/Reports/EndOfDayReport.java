@@ -1,10 +1,8 @@
 package org.example.Reports;
 
-import org.example.Context;
-import org.example.POSState;
 import org.example.Report;
 
-public class EndOfDayReport extends Report implements POSState {
+public class EndOfDayReport extends Report {
     @Override
     public void getData() {
 
@@ -15,12 +13,5 @@ public class EndOfDayReport extends Report implements POSState {
     public void createReport() {
 
         System.out.println("Creating End of Day Report");
-    }
-
-
-    @Override
-    public void checkState(Context context) {
-        System.out.println("Printing End of Day Report");
-        context.setState(this);
     }
 }
