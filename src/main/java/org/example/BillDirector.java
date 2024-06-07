@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-public class BillDirector {
+public class BillDirector implements BillDirectorInterface{
     private StateContext stateContext;
     private BillBuilder builder;
     private Map<String, PaymentStrategy> strategyMap;
@@ -37,7 +37,8 @@ public class BillDirector {
     }
 
 
-    private void addItem() {
+    @Override
+    public void addItem() {
         try {
             int itemCode = Integer.parseInt(billGraphicalUnitInterfaceService.getTfItemCode().getText());
             int quantity = Integer.parseInt(billGraphicalUnitInterfaceService.getTfQuantity().getText());
@@ -55,6 +56,7 @@ public class BillDirector {
         }
     }
 
+    @Override
     public void addItemToBill(Item item, int quantity) {
         String itemName = item.getProduct().getProductName();
         double totalPrice = item.getUnitPrice() * quantity;
@@ -68,7 +70,8 @@ public class BillDirector {
         billGraphicalUnitInterfaceService.getTfSubtotal().setText(String.format("%.2f", subTotal));
     }
 
-    private void addItemToPanel(BillItem billItem) {
+    @Override
+    public void addItemToPanel(BillItem billItem) {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.X_AXIS));
 
@@ -91,7 +94,9 @@ public class BillDirector {
         billGraphicalUnitInterfaceService.getItemsPanel().repaint();
     }
 
-    private void removeItemFromBill(int itemCode, JPanel itemPanel) {
+
+    @Override
+    public void removeItemFromBill(int itemCode, JPanel itemPanel) {
         BillItem itemToRemove = null;
         for (BillItem item : billItems) {
             if (item.getItemCode() == itemCode) {
@@ -109,6 +114,7 @@ public class BillDirector {
         }
     }
 
+    @Override
     public void removeItemFromBill(int itemCode, int quantity) {
         BillItem itemToRemove = null;
         for (BillItem item : billItems) {
@@ -136,7 +142,9 @@ public class BillDirector {
         }
     }
 
-    void finalizeBill() {
+
+    @Override
+    public void finalizeBill() {
         stateContext.finalizeBill(this);
         try {
             int billSerialNumber = Integer.parseInt(billGraphicalUnitInterfaceService.getTfBillSerialNumber().getText());
