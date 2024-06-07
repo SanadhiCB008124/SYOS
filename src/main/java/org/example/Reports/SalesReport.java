@@ -9,7 +9,8 @@ import DatabaseConfiguration.Database;
 import org.example.*;
 
 public class SalesReport extends Report {
-    private List<Bill> bills = new ArrayList<>();
+    protected List<Bill> bills = new ArrayList<>();
+    protected BillIterator billIterator;
 
 
     @Override

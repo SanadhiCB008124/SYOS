@@ -9,7 +9,8 @@ import java.util.List;
 
 public class StockReport extends Report {
 
-    private List<Stock> stocks=new ArrayList<>();
+    protected List<Stock> stocks=new ArrayList<>();
+    protected StockIterator stockIterator;
     
     @Override
     protected void getData() {

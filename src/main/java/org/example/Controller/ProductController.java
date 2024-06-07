@@ -37,7 +37,13 @@ public class ProductController {
             int productCategoryID;
 
             try {
+
                 productName = theView.getProductName();
+                if(productName==null||productName.trim().isEmpty()){
+                    theView.displayError("Product name cannot be empty!");
+                    return;
+                }
+
                 ProductCategory selectedCategory = theView.getSelectedProductCategory();
                 productCategoryID = selectedCategory.getProductCategoryId();
 

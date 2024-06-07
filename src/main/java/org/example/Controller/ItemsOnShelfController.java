@@ -35,8 +35,6 @@ public class ItemsOnShelfController {
     }
     class AddItemListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-
-
             java.sql.Date expiryDate;
             java.sql.Date manufactureDate;
 

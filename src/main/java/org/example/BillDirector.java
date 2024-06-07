@@ -37,8 +37,19 @@ public class BillDirector implements BillDirectorInterface{
 
 
 
+
         billGraphicalUnitInterfaceService.addItemListener(e->addItem());
         billGraphicalUnitInterfaceService.finalizeBillListener(e->finalizeBill());
+
+
+
+
+    }
+    public List<BillItem> getBillItems() {
+        return billItems;
+    }
+    public double getSubTotal() {
+        return subTotal;
     }
 
 
@@ -185,9 +196,11 @@ public class BillDirector implements BillDirectorInterface{
                     subTotal));
             JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(),"Bill added successfully");
             stateContext.processBill(this);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Invalid input. Please enter valid numbers for discount and cash tendered.");
         }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Error Adding bill.");
+        }
+
     }
 
 }

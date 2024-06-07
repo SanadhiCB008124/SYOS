@@ -114,10 +114,20 @@ public class Stock {
         observers.add(observer);
     }
 
-    public void notifyAllObservers() {
+    private void notifyAllObservers() {
         for (Observer observer : observers) {
             observer.update();
-            observer.lowStockAlert();
+            if (quantityInStock < 50) {
+                observer.lowStockAlert();
+            }
         }
+    }
+
+    public void setBatchCode(Integer batchCode) {
+        this.batchCode = batchCode;
+    }
+
+    public void setItemCode(Integer itemCode) {
+        this.itemCode = itemCode;
     }
 }

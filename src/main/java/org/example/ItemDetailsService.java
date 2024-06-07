@@ -12,6 +12,8 @@ public class ItemDetailsService {
 
     public ItemDetailsService(ProductDetailsService productDetailsService) {
         this.productDetailsService = productDetailsService;
+
+
     }
 
     public Item fetchItemDetails(int itemCode) {

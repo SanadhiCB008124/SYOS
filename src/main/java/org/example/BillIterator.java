@@ -21,11 +21,16 @@ public class BillIterator implements Iterator{
 
     @Override
     public boolean hasNext() {
-        return false;
+
+        return position<bills.size();
     }
 
     @Override
     public Object next() {
+
+        if (this.hasNext()) {
+            return bills.get(position++);
+        }
         return null;
     }
 

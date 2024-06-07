@@ -9,12 +9,12 @@ public class StockObserver extends Observer{
     }
     @Override
     public void update() {
-        System.out.println("Observer is updated"+ Stock.getQuantityInStock());
+        System.out.println("Observer is updated "+ Stock.getItemCode()+ "is updated with "+ Stock.getQuantityInStock());
     }
 
     @Override
     public void lowStockAlert() {
-        System.out.println("Low Stock ! Re-order "+ Stock.getQuantityInStock() );
+        System.out.println("Low Stock ! Re-order "+ Stock.getItemCode()+ " Quantity is at "+  Stock.getQuantityInStock() );
     }
 
 

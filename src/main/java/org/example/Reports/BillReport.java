@@ -6,6 +6,7 @@ import org.example.BillRepository;
 import org.example.Report;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BillReport extends Report  {
@@ -47,6 +48,7 @@ public class BillReport extends Report  {
             System.out.println("---------------------------------------------");
         }
     }
+
 
 
 }

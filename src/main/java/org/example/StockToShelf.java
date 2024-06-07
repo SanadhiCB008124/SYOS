@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockToShelf {
-    private BatchHandler batchHandler;
+    protected BatchHandler batchHandler;
 
     private final StockItemRepository stockItemRepository;
 

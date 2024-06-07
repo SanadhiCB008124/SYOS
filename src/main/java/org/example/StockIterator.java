@@ -44,7 +44,7 @@ public class StockIterator implements Iterator {
 
     public void reOrderStockLevels(){
 
-        String SQL_SELECT = "SELECT stockitemid, itemcode, batchcode, quantityinstock, expirydate, manufacturedate, batchdate " + "FROM stockitem " + "WHERE quantityinstock < 50";
+        String SQL_SELECT = "SELECT stockitemid,itemname, itemcode, batchcode, quantityinstock, expirydate, manufacturedate, batchdate " + "FROM stockitem " + "WHERE quantityinstock < 50";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT);

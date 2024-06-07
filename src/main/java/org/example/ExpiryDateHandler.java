@@ -16,7 +16,6 @@ public class ExpiryDateHandler implements BatchHandler{
 
         List<Stock> sortedItems=new ArrayList<>();
 
-
         for(Stock item: Stocks){
             if(item.getBatchDate().before(item.getExpiryDate())){
                 sortedItems.add(item);
