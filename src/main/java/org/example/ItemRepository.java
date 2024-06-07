@@ -13,9 +13,12 @@ public class ItemRepository {
 
 
     public void reStockShelf() {
-        String SQL_SELECT_ITEMS = "SELECT itemcode, qtyonshelf FROM item";
+        String SQL_SELECT_ITEMS = "SELECT i.itemcode, i.qtyonshelf, s.quantityinstock " +
+                "FROM item i " +
+                "JOIN stockitem s ON i.itemcode = s.itemcode";
+
         String SQL_UPDATE_ITEM = "UPDATE item SET qtyonshelf = ? WHERE itemcode = ?";
-        String SQL_UPDATE_STOCK = "UPDATE stockitem SET quantityinstock = quantityinstock - ? WHERE itemcode = ?";
+        String SQL_UPDATE_STOCK = "UPDATE stockitem SET quantityinstock = ? WHERE itemcode = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmtSelect = conn.prepareStatement(SQL_SELECT_ITEMS);
@@ -27,26 +30,36 @@ public class ItemRepository {
                 while (rs.next()) {
                     int itemCode = rs.getInt("itemcode");
                     int qtyOnShelf = rs.getInt("qtyonshelf");
-                    int quantityToAdd = Math.max(0, SHELF_SIZE - qtyOnShelf);
+                    int quantityInStock = rs.getInt("quantityinstock");
 
-                    // Update the quantity on shelf by adding the quantity to add
-                    pstmtUpdateItem.setInt(1, qtyOnShelf + quantityToAdd);
-                    pstmtUpdateItem.setInt(2, itemCode);
-                    pstmtUpdateItem.executeUpdate();
+                    // Calculate the quantity to add to the shelf
+                    int quantityToAdd = Math.min(SHELF_SIZE - qtyOnShelf, quantityInStock);
 
-                    // Update stock quantityinstock by reducing the stock quantity by the quantity added to the shelf
-                    pstmtUpdateStock.setInt(1, quantityToAdd);
-                    pstmtUpdateStock.setInt(2, itemCode);
-                    pstmtUpdateStock.executeUpdate();
+                    if (quantityToAdd > 0) {
+                        // Update the quantity on the shelf
+                        pstmtUpdateItem.setInt(1, qtyOnShelf + quantityToAdd);
+                        pstmtUpdateItem.setInt(2, itemCode);
+                        pstmtUpdateItem.executeUpdate();
+
+                        // Update the stock quantity in stock
+                        pstmtUpdateStock.setInt(1, quantityInStock - quantityToAdd);
+                        pstmtUpdateStock.setInt(2, itemCode);
+                        pstmtUpdateStock.executeUpdate();
+                        
+                        System.out.println("Updated item code: " + itemCode +
+                                " | Shelf quantity: " + (qtyOnShelf + quantityToAdd) +
+                                " | Stock quantity: " + (quantityInStock - quantityToAdd));
+                    }
                 }
 
-                System.out.println("All items restocked with a quantity of " + SHELF_SIZE + " successfully!");
+                System.out.println("All items restocked successfully!");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error restocking all items: " + e.getMessage());
+            System.out.println("Error restocking items: " + e.getMessage());
         }
     }
+
 
 
 

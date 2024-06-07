@@ -10,7 +10,7 @@ public class ShelfObserver extends Observer {
     }
     @Override
     public void update() {
-        System.out.println("Shelf is updated  "+" Item Code "+ item.getItemCode()+" Quantity is at" + item.getQuantityOnShelf());
+        System.out.println("Shelf is updated  : Item Code "+ item.getItemCode()+" Quantity is at" + item.getQuantityOnShelf());
     }
 
     @Override

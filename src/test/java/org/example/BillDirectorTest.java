@@ -79,7 +79,7 @@ public class BillDirectorTest {
         billDirector.addItem();
 
         //the bill serial number is the primary key
-        billGraphicalUnitInterfaceService.getTfBillSerialNumber().setText("6465");
+        billGraphicalUnitInterfaceService.getTfBillSerialNumber().setText("6965");
         billGraphicalUnitInterfaceService.getTfDiscount().setText("5");
         billGraphicalUnitInterfaceService.getTfCashTendered().setText("25");
         billGraphicalUnitInterfaceService.getPaymentStrategyComboBox().setSelectedItem("Cash");
