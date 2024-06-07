@@ -7,8 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProductDetailsService {
+public class ProductDetailsService implements ProductDetailsProvider {
 
+    @Override
     public Product fetchProductDetails(int productId) {
         Product product = null;
         String query = "SELECT productid, productname FROM product WHERE productid = ?";

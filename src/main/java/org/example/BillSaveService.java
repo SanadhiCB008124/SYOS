@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class BillSaveService {
+public class BillSaveService implements BillDatabaseServiceInterface {
+
+    @Override
     public void saveBill(Bill bill) {
 
         String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentMethod,customername) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?,?)";

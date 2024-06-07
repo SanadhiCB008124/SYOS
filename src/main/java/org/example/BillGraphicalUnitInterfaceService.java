@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-public class BillInterfaceService {
+public class BillGraphicalUnitInterfaceService implements BillGraphicalUnitInterface {
     private JComboBox<String> paymentStrategyComboBox;
     private JFrame frame;
     private JTextField tfBillSerialNumber;
@@ -22,12 +22,91 @@ public class BillInterfaceService {
 
     private  JTextField customerName;
 
-    public BillInterfaceService(Map<String, PaymentStrategy> strategyMap) {
+    public BillGraphicalUnitInterfaceService(Map<String, PaymentStrategy> strategyMap) {
         this.strategyMap=strategyMap;
         createGUI(strategyMap);
     }
 
-    private void createGUI(Map<String, PaymentStrategy> strategyMap) {
+    @Override
+    public JComboBox<String> getPaymentStrategyComboBox() {
+        return paymentStrategyComboBox;
+    }
+
+    @Override
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    @Override
+    public JTextField getTfBillSerialNumber() {
+        return tfBillSerialNumber;
+    }
+
+    @Override
+    public JTextField getTfItemCode() {
+        return tfItemCode;
+    }
+
+    @Override
+    public JTextField getTfQuantity() {
+        return tfQuantity;
+    }
+
+    @Override
+    public JTextField getTfDiscount() {
+        return tfDiscount;
+    }
+
+    @Override
+    public JTextField getTfCashTendered() {
+        return tfCashTendered;
+    }
+
+    @Override
+    public JPanel getItemsPanel() {
+        return itemsPanel;
+    }
+
+    @Override
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    @Override
+    public JTextField getTfSubtotal() {
+        return tfSubtotal;
+    }
+
+    @Override
+    public Map<String, PaymentStrategy> getStrategyMap() {
+        return strategyMap;
+    }
+
+    @Override
+    public void addItemListener(ActionListener listener) {
+        addItemButton.addActionListener(listener);
+
+    }
+
+    @Override
+    public void finalizeBillListener(ActionListener listener) {
+        finalizeButton.addActionListener(listener);
+
+
+    }
+
+    @Override
+    public JTextField getCustomerName() {
+        return customerName;
+    }
+
+    @Override
+    public void setCustomerName(JTextField customerName) {
+        this.customerName = customerName;
+
+    }
+
+    public void createGUI(Map<String, PaymentStrategy> strategyMap) {
         frame = new JFrame("POS");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -87,107 +166,5 @@ public class BillInterfaceService {
 
     }
 
-    public JComboBox<String> getPaymentStrategyComboBox() {
-        return paymentStrategyComboBox;
-    }
 
-    public void setPaymentStrategyComboBox(JComboBox<String> paymentStrategyComboBox) {
-        this.paymentStrategyComboBox = paymentStrategyComboBox;
-    }
-
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-
-    public JTextField getTfBillSerialNumber() {
-        return tfBillSerialNumber;
-    }
-
-    public void setTfBillSerialNumber(JTextField tfBillSerialNumber) {
-        this.tfBillSerialNumber = tfBillSerialNumber;
-    }
-
-    public JTextField getTfItemCode() {
-        return tfItemCode;
-    }
-
-    public void setTfItemCode(JTextField tfItemCode) {
-        this.tfItemCode = tfItemCode;
-    }
-
-    public JTextField getTfQuantity() {
-        return tfQuantity;
-    }
-
-    public void setTfQuantity(JTextField tfQuantity) {
-        this.tfQuantity = tfQuantity;
-    }
-
-
-    public JTextField getTfDiscount() {
-        return tfDiscount;
-    }
-
-    public void setTfDiscount(JTextField tfDiscount) {
-        this.tfDiscount = tfDiscount;
-    }
-
-    public JTextField getTfCashTendered() {
-        return tfCashTendered;
-    }
-
-    public void setTfCashTendered(JTextField tfCashTendered) {
-        this.tfCashTendered = tfCashTendered;
-    }
-
-    public JPanel getItemsPanel() {
-        return itemsPanel;
-    }
-
-    public void setItemsPanel(JPanel itemsPanel) {
-        this.itemsPanel = itemsPanel;
-    }
-
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
-
-    public void setScrollPane(JScrollPane scrollPane) {
-        this.scrollPane = scrollPane;
-    }
-
-    public JTextField getTfSubtotal() {
-        return tfSubtotal;
-    }
-
-    public void setTfSubtotal(JTextField tfSubtotal) {
-        this.tfSubtotal = tfSubtotal;
-    }
-
-    public Map<String, PaymentStrategy> getStrategyMap() {
-        return strategyMap;
-    }
-
-    public void setStrategyMap(Map<String, PaymentStrategy> strategyMap) {
-        this.strategyMap = strategyMap;
-    }
-    public void addItemListener(ActionListener listener) {
-        addItemButton.addActionListener(listener);
-    }
-
-    public void finalizeBillListener(ActionListener listener) {
-        finalizeButton.addActionListener(listener);
-    }
-
-    public JTextField getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(JTextField customerName) {
-        this.customerName = customerName;
-    }
 }

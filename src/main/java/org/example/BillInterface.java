@@ -13,8 +13,8 @@ public class BillInterface implements PointOfSales{
         Map<String,PaymentStrategy> strategyMap=new HashMap<>();
         strategyMap.put("Cash",new CashPayment());
         strategyMap.put("Credit Card",new CreditCardPayment());
-        BillInterfaceService billInterfaceService=new BillInterfaceService(strategyMap);
-        BillDirector billDirector=new BillDirector(builder,itemDetailsService,billSaveService,billInterfaceService);
+        BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService =new BillGraphicalUnitInterfaceService(strategyMap);
+        BillDirector billDirector=new BillDirector(builder,itemDetailsService,billSaveService, billGraphicalUnitInterfaceService);
         billDirector.checkState();
     }
 }

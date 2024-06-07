@@ -20,27 +20,27 @@ public class BillDirector {
     ItemDetailsService itemDetailsService;
     BillSaveService billSaveService;
 
-    BillInterfaceService billInterfaceService;
+    BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService;
 
-    public BillDirector(BillBuilder builder, ItemDetailsService itemDetailsService,BillSaveService billSaveService,BillInterfaceService billInterfaceService) {
+    public BillDirector(BillBuilder builder, ItemDetailsService itemDetailsService, BillSaveService billSaveService, BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService) {
         this.builder = builder;
         this.stateContext=new StateContext();
         this.itemDetailsService=itemDetailsService;
         this.billSaveService=billSaveService;
-        this.billInterfaceService=billInterfaceService;
+        this.billGraphicalUnitInterfaceService = billGraphicalUnitInterfaceService;
         this.strategyMap = new HashMap<>();
         strategyMap.put("Cash", new CashPayment());
         strategyMap.put("Credit Card", new CreditCardPayment());
 
-        billInterfaceService.addItemListener(e->addItem());
-        billInterfaceService.finalizeBillListener(e->finalizeBill());
+        billGraphicalUnitInterfaceService.addItemListener(e->addItem());
+        billGraphicalUnitInterfaceService.finalizeBillListener(e->finalizeBill());
     }
 
 
     private void addItem() {
         try {
-            int itemCode = Integer.parseInt(billInterfaceService.getTfItemCode().getText());
-            int quantity = Integer.parseInt(billInterfaceService.getTfQuantity().getText());
+            int itemCode = Integer.parseInt(billGraphicalUnitInterfaceService.getTfItemCode().getText());
+            int quantity = Integer.parseInt(billGraphicalUnitInterfaceService.getTfQuantity().getText());
             Item item = itemDetailsService.fetchItemDetails(itemCode);
 
             if (item != null) {
@@ -48,10 +48,10 @@ public class BillDirector {
                 commands.add(addItemCommand);
                 addItemCommand.execute();
             } else {
-                JOptionPane.showMessageDialog(billInterfaceService.getFrame(), "Item with code " + itemCode + " not found.");
+                JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Item with code " + itemCode + " not found.");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(billInterfaceService.getFrame(), "Invalid input. Please enter valid numbers for item code and quantity.");
+            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Invalid input. Please enter valid numbers for item code and quantity.");
         }
     }
 
@@ -65,7 +65,7 @@ public class BillDirector {
         billItems.add(billItem);
         addItemToPanel(billItem);
 
-        billInterfaceService.getTfSubtotal().setText(String.format("%.2f", subTotal));
+        billGraphicalUnitInterfaceService.getTfSubtotal().setText(String.format("%.2f", subTotal));
     }
 
     private void addItemToPanel(BillItem billItem) {
@@ -86,9 +86,9 @@ public class BillDirector {
         itemPanel.add(itemLabel);
         itemPanel.add(removeButton);
 
-        billInterfaceService.getItemsPanel().add(itemPanel);
-        billInterfaceService.getItemsPanel().revalidate();
-        billInterfaceService.getItemsPanel().repaint();
+        billGraphicalUnitInterfaceService.getItemsPanel().add(itemPanel);
+        billGraphicalUnitInterfaceService.getItemsPanel().revalidate();
+        billGraphicalUnitInterfaceService.getItemsPanel().repaint();
     }
 
     private void removeItemFromBill(int itemCode, JPanel itemPanel) {
@@ -105,7 +105,7 @@ public class BillDirector {
             removeItemCommand.execute();
             commands.add(removeItemCommand);
         } else {
-            JOptionPane.showMessageDialog(billInterfaceService.getFrame(), "Item with code " + itemCode + " not found in the bill.");
+            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Item with code " + itemCode + " not found in the bill.");
         }
     }
 
@@ -123,31 +123,31 @@ public class BillDirector {
             totalQuantitiesSold -= quantity;
             subTotal -= itemToRemove.getTotalPrice();
 
-            billInterfaceService.getItemsPanel().removeAll();
+            billGraphicalUnitInterfaceService.getItemsPanel().removeAll();
             for (BillItem item : billItems) {
                 addItemToPanel(item);
             }
-            billInterfaceService.getItemsPanel().revalidate();
-            billInterfaceService.getItemsPanel().repaint();
+            billGraphicalUnitInterfaceService.getItemsPanel().revalidate();
+            billGraphicalUnitInterfaceService.getItemsPanel().repaint();
 
-            billInterfaceService.getTfSubtotal().setText(String.format("%.2f", subTotal));
+            billGraphicalUnitInterfaceService.getTfSubtotal().setText(String.format("%.2f", subTotal));
         } else {
-            JOptionPane.showMessageDialog(billInterfaceService.getFrame(), "Item with code " + itemCode + " not found in the bill.");
+            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Item with code " + itemCode + " not found in the bill.");
         }
     }
 
     void finalizeBill() {
         stateContext.finalizeBill(this);
         try {
-            int billSerialNumber = Integer.parseInt(billInterfaceService.getTfBillSerialNumber().getText());
-            double discount = Double.parseDouble(billInterfaceService.getTfDiscount().getText());
-            double cashTendered = Double.parseDouble(billInterfaceService.getTfCashTendered().getText());
+            int billSerialNumber = Integer.parseInt(billGraphicalUnitInterfaceService.getTfBillSerialNumber().getText());
+            double discount = Double.parseDouble(billGraphicalUnitInterfaceService.getTfDiscount().getText());
+            double cashTendered = Double.parseDouble(billGraphicalUnitInterfaceService.getTfCashTendered().getText());
             double netTotal = subTotal - discount;
             double changeAmount = cashTendered - netTotal;
-            String selectedPaymentStrategy = (String) billInterfaceService.getPaymentStrategyComboBox().getSelectedItem();
+            String selectedPaymentStrategy = (String) billGraphicalUnitInterfaceService.getPaymentStrategyComboBox().getSelectedItem();
             PaymentStrategy strategy = strategyMap.get(selectedPaymentStrategy);
             PaymentContext paymentContext = new PaymentContext(strategy);
-            String customerName = billInterfaceService.getCustomerName().getText();
+            String customerName = billGraphicalUnitInterfaceService.getCustomerName().getText();
 
             Date dateOfBill = new Date();
 
@@ -167,12 +167,12 @@ public class BillDirector {
             paymentContext.executeStrategy(bill);
             billSaveService.saveBill(bill);
 
-            billInterfaceService.getTfSubtotal().setText(String.format("Subtotal:",
+            billGraphicalUnitInterfaceService.getTfSubtotal().setText(String.format("Subtotal:",
                     subTotal));
-            JOptionPane.showMessageDialog(billInterfaceService.getFrame(),"Bill added successfully");
+            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(),"Bill added successfully");
             stateContext.processBill(this);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(billInterfaceService.getFrame(), "Invalid input. Please enter valid numbers for discount and cash tendered.");
+            JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Invalid input. Please enter valid numbers for discount and cash tendered.");
         }
     }
 
