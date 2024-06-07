@@ -1,5 +1,6 @@
 package org.example;
 
+import DatabaseConfiguration.Database;
 import org.example.Controller.ItemsOnShelfController;
 import org.example.View.ItemsOnShelfView;
 

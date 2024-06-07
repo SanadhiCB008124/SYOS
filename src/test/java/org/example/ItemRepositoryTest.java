@@ -66,7 +66,7 @@ public class ItemRepositoryTest {
         Integer itemCode = 1001;
         String itemDescription = "Test Item";
         double unitPrice = 10.99;
-        Integer quantityOnShelf = 15;
+        Integer quantityOnShelf = 20;
         Product product = new Product(1, "Test Product");
 
         // Call the method under test
