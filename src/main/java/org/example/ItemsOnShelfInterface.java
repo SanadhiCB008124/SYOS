@@ -9,7 +9,7 @@ public class ItemsOnShelfInterface implements PointOfSales{
     public void getInterface() {
         ItemsOnShelfView view = new ItemsOnShelfView();
         ItemRepository itemRepository=new ItemRepository();
-        Item model=new Item( );
+        Item model=new Item();
         ItemsOnShelfController controller = new ItemsOnShelfController(view, model,itemRepository);
 
         view.setVisible(true);

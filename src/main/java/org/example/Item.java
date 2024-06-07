@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
-
     List<Observer> observers=new ArrayList<Observer>();
     private static final int SHELF_SIZE = 20;
     private Integer itemCode;

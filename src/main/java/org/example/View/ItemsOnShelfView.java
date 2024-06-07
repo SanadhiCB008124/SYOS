@@ -22,6 +22,8 @@ public class ItemsOnShelfView extends JFrame {
     private JComboBox<String> productid = new JComboBox<>();
     private JButton addItemsOnShelf = new JButton("Add");
 
+    private JButton restockShelf = new JButton("Restock");
+
 
 
     public ItemsOnShelfView() {
@@ -43,6 +45,7 @@ public class ItemsOnShelfView extends JFrame {
 
 
         itemsOnShelfPanel.add(addItemsOnShelf);
+        itemsOnShelfPanel.add(restockShelf);
         this.add(itemsOnShelfPanel);
     }
 
@@ -77,6 +80,10 @@ public class ItemsOnShelfView extends JFrame {
 
     public void addItemsOnShelfListener(ActionListener listener) {
         addItemsOnShelf.addActionListener(listener);
+    }
+
+    public void addRestockShelfListener(ActionListener listener) {
+        restockShelf.addActionListener(listener);
     }
 
     public void displayErrorMessage(String errorMessage) {

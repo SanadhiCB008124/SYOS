@@ -4,10 +4,36 @@ import DatabaseConfiguration.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ItemRepository {
+    private static final int SHELF_SIZE =20 ;
     private Item item;
+
+
+    public void reStockShelf() {
+        String SQL_SELECT_ITEMS = "SELECT itemcode FROM item";
+        String SQL_UPDATE = "UPDATE item SET qtyonshelf = ? WHERE itemcode = ?";
+
+        try (Connection conn = Database.connect();
+             PreparedStatement pstmtSelect = conn.prepareStatement(SQL_SELECT_ITEMS);
+             ResultSet rs = pstmtSelect.executeQuery()) {
+
+            try (PreparedStatement pstmtUpdate = conn.prepareStatement(SQL_UPDATE)) {
+                while (rs.next()) {
+                    int itemCode = rs.getInt("itemcode");
+                    pstmtUpdate.setInt(1, SHELF_SIZE);
+                    pstmtUpdate.setInt(2, itemCode);
+                    pstmtUpdate.executeUpdate();
+                }
+                System.out.println("All items restocked with a quantity of " + SHELF_SIZE + " successfully!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error restocking all items: " + e.getMessage());
+        }
+    }
 
 
     public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product) {

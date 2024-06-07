@@ -12,7 +12,6 @@ public class ItemsOnShelfController {
 
     private ItemsOnShelfView theView;
     private Item theModel;
-
     private ItemRepository itemRepository;
 
     public ItemsOnShelfController(ItemsOnShelfView theView, Item theModel,ItemRepository itemRepository) {
@@ -22,6 +21,7 @@ public class ItemsOnShelfController {
 
         initializeProducts();
         theView.addItemsOnShelfListener(new AddItemListener());
+        theView.addRestockShelfListener(new RestockShelfListener());
     }
 
     private void initializeProducts() {
@@ -33,6 +33,21 @@ public class ItemsOnShelfController {
         theView.setProducts(products);
 
     }
+
+    class RestockShelfListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+
+                itemRepository.reStockShelf();
+                theView.displaySuccessMessage("Shelf restocked successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                theView.displayErrorMessage("Error restocking shelf: " + ex.getMessage());
+            }
+        }
+    }
+
+
     class AddItemListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             java.sql.Date expiryDate;
