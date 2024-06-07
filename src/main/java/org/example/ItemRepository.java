@@ -13,20 +13,33 @@ public class ItemRepository {
 
 
     public void reStockShelf() {
-        String SQL_SELECT_ITEMS = "SELECT itemcode FROM item";
-        String SQL_UPDATE = "UPDATE item SET qtyonshelf = ? WHERE itemcode = ?";
+        String SQL_SELECT_ITEMS = "SELECT itemcode, qtyonshelf FROM item";
+        String SQL_UPDATE_ITEM = "UPDATE item SET qtyonshelf = ? WHERE itemcode = ?";
+        String SQL_UPDATE_STOCK = "UPDATE stockitem SET quantityinstock = quantityinstock - ? WHERE itemcode = ?";
 
         try (Connection conn = Database.connect();
              PreparedStatement pstmtSelect = conn.prepareStatement(SQL_SELECT_ITEMS);
              ResultSet rs = pstmtSelect.executeQuery()) {
 
-            try (PreparedStatement pstmtUpdate = conn.prepareStatement(SQL_UPDATE)) {
+            try (PreparedStatement pstmtUpdateItem = conn.prepareStatement(SQL_UPDATE_ITEM);
+                 PreparedStatement pstmtUpdateStock = conn.prepareStatement(SQL_UPDATE_STOCK)) {
+
                 while (rs.next()) {
                     int itemCode = rs.getInt("itemcode");
-                    pstmtUpdate.setInt(1, SHELF_SIZE);
-                    pstmtUpdate.setInt(2, itemCode);
-                    pstmtUpdate.executeUpdate();
+                    int qtyOnShelf = rs.getInt("qtyonshelf");
+                    int quantityToAdd = Math.max(0, SHELF_SIZE - qtyOnShelf);
+
+                    // Update the quantity on shelf by adding the quantity to add
+                    pstmtUpdateItem.setInt(1, qtyOnShelf + quantityToAdd);
+                    pstmtUpdateItem.setInt(2, itemCode);
+                    pstmtUpdateItem.executeUpdate();
+
+                    // Update stock quantityinstock by reducing the stock quantity by the quantity added to the shelf
+                    pstmtUpdateStock.setInt(1, quantityToAdd);
+                    pstmtUpdateStock.setInt(2, itemCode);
+                    pstmtUpdateStock.executeUpdate();
                 }
+
                 System.out.println("All items restocked with a quantity of " + SHELF_SIZE + " successfully!");
             }
         } catch (SQLException e) {
@@ -34,6 +47,8 @@ public class ItemRepository {
             System.out.println("Error restocking all items: " + e.getMessage());
         }
     }
+
+
 
 
     public void addItemsOnShelf(Integer itemCode, String itemDescription, double unitPrice, Integer quantityOnShelf, Product product) {
