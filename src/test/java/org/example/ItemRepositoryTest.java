@@ -7,11 +7,13 @@ import org.junit.Test;
 
 import java.sql.*;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class ItemRepositoryTest {
 
+    private static final int SHELF_SIZE =20 ;
     private Connection connection;
     private ItemRepository itemRepository;
 
@@ -37,6 +39,26 @@ public class ItemRepositoryTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void testRestockShelf() {
+        // Assuming there's already some data in the item and stockitem tables to perform the restock
+        itemRepository.reStockShelf();
+
+        // Verify if the items were restocked correctly by checking the database
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM item");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int qtyOnShelf = resultSet.getInt("qtyonshelf");
+                // Verify if the qtyonshelf is updated correctly
+                assertEquals(SHELF_SIZE, qtyOnShelf);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("SQLException occurred");
+        }
+    }
+
 
     @Test
     public void testAddItemsOnShelf() {

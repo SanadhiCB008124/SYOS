@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ExpiryDateHandler implements BatchHandler{
@@ -12,18 +13,24 @@ public class ExpiryDateHandler implements BatchHandler{
     }
 
     @Override
-    public void handleMovingItemsToTheShelf(List<Stock> Stocks) {
+    public void handleMovingItemsToTheShelf(List<Stock> stocks) {
 
-        List<Stock> sortedItems=new ArrayList<>();
+        List<Stock> sortedItems=new ArrayList<>(stocks);
 
-        for(Stock item: Stocks){
-            if(item.getBatchDate().before(item.getExpiryDate())){
-                sortedItems.add(item);
+        sortedItems.sort(Comparator.comparing(Stock::getBatchDate));
+
+        List<Stock> itemsWithCloserExpiryDate = new ArrayList<>();
+        for(Stock item: sortedItems){
+            if(item.getExpiryDate().before(item.getBatchDate())){
+                itemsWithCloserExpiryDate.add(item);
             }
         }
 
-        if (nextHandler != null) {
-            nextHandler.handleMovingItemsToTheShelf(sortedItems);
+        if (!itemsWithCloserExpiryDate.isEmpty()) {
+            // Pass the filtered items to the next handler (ShelfHandler)
+            if (nextHandler != null) {
+                 nextHandler.handleMovingItemsToTheShelf(itemsWithCloserExpiryDate);
+            }
         }
 
 
