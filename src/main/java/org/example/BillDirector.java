@@ -17,20 +17,25 @@ public class BillDirector implements BillDirectorInterface{
     private List<BillItem> billItems = new ArrayList<>();
     private double subTotal = 0.0;
     private List<Command> commands = new ArrayList<>();
-    ItemDetailsService itemDetailsService;
-    BillSaveService billSaveService;
+    private ItemDetailsService itemDetailsService;
+    private BillSaveService billSaveService;
 
-    BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService;
+    private BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService;
 
-    public BillDirector(BillBuilder builder, ItemDetailsService itemDetailsService, BillSaveService billSaveService, BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService) {
+    private CheckStateService checkStateService;
+
+    public BillDirector(BillBuilder builder, ItemDetailsService itemDetailsService, BillSaveService billSaveService, BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService,CheckStateService checkStateService) {
         this.builder = builder;
         this.stateContext=new StateContext();
         this.itemDetailsService=itemDetailsService;
         this.billSaveService=billSaveService;
         this.billGraphicalUnitInterfaceService = billGraphicalUnitInterfaceService;
+        this.checkStateService=checkStateService;
         this.strategyMap = new HashMap<>();
         strategyMap.put("Cash", new CashPayment());
         strategyMap.put("Credit Card", new CreditCardPayment());
+
+
 
         billGraphicalUnitInterfaceService.addItemListener(e->addItem());
         billGraphicalUnitInterfaceService.finalizeBillListener(e->finalizeBill());
@@ -146,6 +151,7 @@ public class BillDirector implements BillDirectorInterface{
     @Override
     public void finalizeBill() {
         stateContext.finalizeBill(this);
+        checkStateService.checkState();
         try {
             int billSerialNumber = Integer.parseInt(billGraphicalUnitInterfaceService.getTfBillSerialNumber().getText());
             double discount = Double.parseDouble(billGraphicalUnitInterfaceService.getTfDiscount().getText());
@@ -182,11 +188,6 @@ public class BillDirector implements BillDirectorInterface{
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(billGraphicalUnitInterfaceService.getFrame(), "Invalid input. Please enter valid numbers for discount and cash tendered.");
         }
-    }
-
-
-    public void checkState() {
-        stateContext.checkState();
     }
 
 }

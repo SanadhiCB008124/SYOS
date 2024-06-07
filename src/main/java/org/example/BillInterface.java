@@ -14,7 +14,7 @@ public class BillInterface implements PointOfSales{
         strategyMap.put("Cash",new CashPayment());
         strategyMap.put("Credit Card",new CreditCardPayment());
         BillGraphicalUnitInterfaceService billGraphicalUnitInterfaceService =new BillGraphicalUnitInterfaceService(strategyMap);
-        BillDirector billDirector=new BillDirector(builder,itemDetailsService,billSaveService, billGraphicalUnitInterfaceService);
-        billDirector.checkState();
+        CheckStateService checkStateService=new CheckStateService(new StateContext());
+        BillDirector billDirector=new BillDirector(builder,itemDetailsService,billSaveService, billGraphicalUnitInterfaceService,checkStateService);
     }
 }
