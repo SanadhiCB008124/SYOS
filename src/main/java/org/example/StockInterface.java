@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.Controller.batchItemController;
-import org.example.View.batchItemView;
+import org.example.Controller.StockItemController;
+import org.example.View.StockItemView;
 
 public class StockInterface implements PointOfSales {
 
@@ -9,11 +9,11 @@ public class StockInterface implements PointOfSales {
     public void getInterface() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> DatabaseConfiguration.Database.closeConnection()));
 
-        batchItemView view = new batchItemView();
+        StockItemView view = new StockItemView();
         Stock model = new Stock();
 
-        BatchItemRepository batchItemRepository = new BatchItemRepository(DatabaseConfiguration.Database.getInstance());
-        new batchItemController(view, model, batchItemRepository);
+        StockItemRepository stockItemRepository = new StockItemRepository(DatabaseConfiguration.Database.getInstance());
+        new StockItemController(view, model, stockItemRepository);
 
 
         view.setVisible(true);

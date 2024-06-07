@@ -22,7 +22,12 @@ public class Main {
 
 
         Scanner scanner=new Scanner(System.in);
-        System.out.println("Print report: ");
+        System.out.println("Print report:" +
+                "1. Stock Report" +
+                "2. Re-order Report" +
+                "3. Bill Report" +
+                "4. Sales Report" +
+                "5. End of Day Report");
         int choice=scanner.nextInt();
         if(choice==1){
             ReportFacade reportFacade = new ReportFacade();

@@ -1,21 +1,22 @@
 package org.example.Controller;
 
-import org.example.BatchItemRepository;
+import org.example.StockItemRepository;
 import org.example.Stock;
-import org.example.View.batchItemView;
+import org.example.View.StockItemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 
-public class batchItemController {
+public class StockItemController {
 
-    private batchItemView theView;
+    private StockItemView theView;
     private Stock theModel;
-    private BatchItemRepository batchItemRepository;
+    private StockItemRepository stockItemRepository;
 
-    public batchItemController(batchItemView theView, Stock theModel, BatchItemRepository batchItemRepository) {
+    public StockItemController(StockItemView theView, Stock theModel, StockItemRepository stockItemRepository) {
         this.theView = theView;
         this.theModel = theModel;
-        this.batchItemRepository=batchItemRepository;
+        this.stockItemRepository = stockItemRepository;
         this.theView.addBatchItemListener(new AddBatchItemListener());
     }
 
@@ -28,16 +29,20 @@ public class batchItemController {
             try {
                 Integer itemCode = Integer.parseInt(theView.getItemCode());
                 Integer batchCode = theView.getBatchCode();
+                String itemName = theView.getItemName();
                 Integer quantityInStock = Integer.parseInt(theView.getQuantityInStock().getText());
-                expiryDate = theView.getExpiryDate();
-                manufactureDate=theView.getManufactureDate();
-                batchDate=theView.getBatchDate();
+                expiryDate = parseDate(theView.getExpiryDate());
+                manufactureDate = parseDate(theView.getManufactureDate());
+                batchDate = parseDate(theView.getBatchDate());
 
-                batchItemRepository.addBatchItems(batchCode, itemCode, quantityInStock,manufactureDate,expiryDate,batchDate);
+                stockItemRepository.addBatchItems(batchCode, itemCode, itemName,quantityInStock,manufactureDate,expiryDate,batchDate);
                 theView.displaySuccessMessage("Batch item added successfully.");
             } catch (NumberFormatException ex) {
                 theView.displayError("Invalid input. Please enter valid numbers.");
             }
+        }
+        private java.sql.Date parseDate(String dateStr) {
+            return java.sql.Date.valueOf(dateStr);
         }
     }
 }

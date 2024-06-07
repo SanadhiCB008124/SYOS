@@ -10,7 +10,6 @@ public class StockToShelf {
     private BatchHandler batchHandler;
 
     public StockToShelf() {
-        // Construct the chain of handlers
         ExpiryDateHandler expiryDateHandler = new ExpiryDateHandler();
         ShelfHandler shelfHandler = new ShelfHandler();
 
@@ -20,10 +19,8 @@ public class StockToShelf {
 
     public void moveItemsToShelfFromDatabase() {
         try (Connection conn = Database.connect()) {
-            // get batch items from the database
-            List<Stock> Stocks = retrieveBatchItemsFromDatabase(conn);
 
-            // Move items to shelf
+            List<Stock> Stocks = retrieveBatchItemsFromDatabase(conn);
             batchHandler.handleMovingItemsToTheShelf(Stocks);
         } catch (SQLException e) {
             System.out.println("Error moving items to shelf: " + e.getMessage());
@@ -32,20 +29,21 @@ public class StockToShelf {
 
     private List<Stock> retrieveBatchItemsFromDatabase(Connection conn) throws SQLException {
         List<Stock> Stocks = new ArrayList<>();
-        String SQL_SELECT = "SELECT * FROM batchItem";
+        String SQL_SELECT = "SELECT * FROM stockitem";
 
         try (PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                int batchItemId = rs.getInt("batchItemId");
+                int stockItemId = rs.getInt("stockItemId");
                 int batchCode = rs.getInt("batchCode");
+                String itemName = rs.getString("itemName");
                 int itemCode = rs.getInt("itemCode");
                 int quantityInStock = rs.getInt("quantityInStock");
                 Date manufactureDate = rs.getDate("manufactureDate");
                 Date expiryDate = rs.getDate("expiryDate");
                 Date batchDate = rs.getDate("batchDate");
 
-                Stocks.add(new Stock(batchItemId, batchCode, itemCode, quantityInStock, expiryDate, manufactureDate,batchDate));
+                Stocks.add(new Stock(stockItemId, batchCode, itemName, itemCode, quantityInStock, expiryDate, manufactureDate,batchDate));
             }
         }
 

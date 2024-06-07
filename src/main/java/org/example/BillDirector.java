@@ -1,15 +1,8 @@
 package org.example;
 
-import DatabaseConfiguration.Database;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +10,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class BillDirector {
-
-    private POSState state;
     private StateContext stateContext;
     private BillBuilder builder;
     private Map<String, PaymentStrategy> strategyMap;
@@ -26,7 +17,6 @@ public class BillDirector {
     private List<BillItem> billItems = new ArrayList<>();
     private double subTotal = 0.0;
     private List<Command> commands = new ArrayList<>();
-
     ItemDetailsService itemDetailsService;
     BillSaveService billSaveService;
 
@@ -147,7 +137,7 @@ public class BillDirector {
     }
 
     void finalizeBill() {
-        state = new FinalizedState();
+        stateContext.finalizeBill(this);
         try {
             int billSerialNumber = Integer.parseInt(billInterfaceService.getTfBillSerialNumber().getText());
             double discount = Double.parseDouble(billInterfaceService.getTfDiscount().getText());
@@ -157,6 +147,7 @@ public class BillDirector {
             String selectedPaymentStrategy = (String) billInterfaceService.getPaymentStrategyComboBox().getSelectedItem();
             PaymentStrategy strategy = strategyMap.get(selectedPaymentStrategy);
             PaymentContext paymentContext = new PaymentContext(strategy);
+            String customerName = billInterfaceService.getCustomerName().getText();
 
             Date dateOfBill = new Date();
 
@@ -170,6 +161,7 @@ public class BillDirector {
             builder.addDateOfBill(dateOfBill);
             builder.addTotalQuantitiesSold(totalQuantitiesSold);
             builder.addPaymentMethod(selectedPaymentStrategy);
+            builder.addCustomerName(customerName);
 
             Bill bill = builder.getBill();
             paymentContext.executeStrategy(bill);
@@ -188,7 +180,5 @@ public class BillDirector {
     public void checkState() {
         stateContext.checkState();
     }
-
-
 
 }

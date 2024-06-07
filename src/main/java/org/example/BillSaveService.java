@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class BillSaveService {
     public void saveBill(Bill bill) {
 
-        String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentMethod) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?)";
+        String billSQL = "INSERT INTO bill (billSerialNumber, dateOfBill, subTotal, discount, netTotal, cashTendered, changeAmount, totalQuantitiesSold,paymentMethod,customername) VALUES (?, ?, ?, ?, ?, ?, ?,?, ?,?)";
         String billItemSQL = "INSERT INTO billItem (billSerialNumber, itemCode, qtyperitem, priceperitem, totalamount) VALUES (?, ?, ?, ?, ?)";
         String updateItemQty = "UPDATE item SET qtyonshelf = qtyonshelf - ? WHERE itemcode = ?";
 
@@ -30,6 +30,7 @@ public class BillSaveService {
             billStmt.setDouble(7, bill.getChangeAmount());
             billStmt.setInt(8,bill.getTotalQuantitiesSold());
             billStmt.setString(9, bill.getPaymentMethod());
+            billStmt.setString(10, bill.getCustomerName());
             billStmt.executeUpdate();
 
             // Insert bill items

@@ -7,7 +7,9 @@ import java.util.List;
 public class Stock {
 
     private List<Observer> observers = new ArrayList<Observer>();
-    private Integer batchItemId;
+    private Integer stockItemId;
+
+    private String itemName;
     private Integer batchCode;
     private Integer itemCode;
     private Integer quantityInStock=0;
@@ -17,10 +19,11 @@ public class Stock {
 
     private java.sql.Date batchDate;
 
-    private BatchItemRepository batchItemRepository;
+    private StockItemRepository stockItemRepository;
 
-    public Stock(Integer batchItemId, Integer batchCode, Integer itemCode, Integer quantityInStock, Date expiryDate, Date manufactureDate, Date batchDate) {
-        this.batchItemId = batchItemId;
+    public Stock(Integer stockItemId, Integer batchCode, String itemName,Integer itemCode, Integer quantityInStock, Date expiryDate, Date manufactureDate, Date batchDate) {
+        this.stockItemId = stockItemId;
+        this.itemName=itemName;
         this.batchCode = batchCode;
         this.itemCode = itemCode;
         this.quantityInStock = quantityInStock;
@@ -31,12 +34,33 @@ public class Stock {
 
     public Stock() {}
 
-    public BatchItemRepository getBatchItemRepository() {
-        return batchItemRepository;
+    public Stock(Integer stockItemId, String itemName, int itemCode, int batchCode, int quantityInStock, Date expiryDate, Date manufactureDate, Date batchDate) {
+        this.stockItemId = stockItemId;
+        this.itemName=itemName;
+        this.batchCode = batchCode;
+        this.itemCode = itemCode;
+        this.quantityInStock = quantityInStock;
+        this.expiryDate = expiryDate;
+        this.manufactureDate = manufactureDate;
+        this.batchDate = batchDate;
+
     }
 
-    public void setBatchItemRepository(BatchItemRepository batchItemRepository) {
-        this.batchItemRepository = batchItemRepository;
+
+    public StockItemRepository getBatchItemRepository() {
+        return stockItemRepository;
+    }
+
+    public void setBatchItemRepository(StockItemRepository stockItemRepository) {
+        this.stockItemRepository = stockItemRepository;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public Integer getBatchCode() {

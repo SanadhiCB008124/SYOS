@@ -24,6 +24,7 @@ public class ReOrderReport extends Report {
         System.out.println("Creating ReOrder Report");
         for (Stock stock : stocks) {
             System.out.println("Batch Code: " + stock.getBatchCode());
+            System.out.println("Item Name: " + stock.getItemName());
             System.out.println("Item Code: " + stock.getItemCode());
             System.out.println("Quantity in Stock: " + stock.getQuantityInStock());
             System.out.println("---------------------------------------------");

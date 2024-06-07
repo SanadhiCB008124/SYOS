@@ -34,6 +34,7 @@ public class BillIterator implements Iterator{
                 Date dateOfBill = rs.getDate("dateofbill");
                 int totalQuantitiesSold = rs.getInt("totalquantitiessold");
                 String paymentStrategy = rs.getString("paymentmethod");
+                String customerName = rs.getString("customername");
 
                 List<BillItem> billItems = new ArrayList<>();
                 try (PreparedStatement ps = conn.prepareStatement(sqlItems)) {
@@ -51,7 +52,7 @@ public class BillIterator implements Iterator{
                     }
                 }
 
-                Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold,paymentStrategy);
+                Bill bill = new Bill(billSerialNumber, netTotal, billItems, discount, cashTendered, changeAmount, subTotal, dateOfBill, totalQuantitiesSold,paymentStrategy,customerName);
                 bills.add(bill);
             }
         } catch (SQLException e) {

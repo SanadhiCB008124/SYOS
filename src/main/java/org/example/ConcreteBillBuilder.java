@@ -57,10 +57,15 @@ public class ConcreteBillBuilder implements BillBuilder {
 
     @Override
     public void addPaymentMethod(String paymentMethod) {
+
         bill.setPaymentMethod(paymentMethod);
     }
 
+    @Override
+    public void addCustomerName(String customerName) {
+        bill.setCustomerName(customerName);
 
+    }
     @Override
     public Bill getBill() {
         return this.bill;

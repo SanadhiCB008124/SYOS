@@ -27,6 +27,7 @@ public class StockReport extends Report {
         for (Stock stock : stocks) {
             System.out.println("Batch Code: " + stock.getBatchCode());
             System.out.println("Item Code: " + stock.getItemCode());
+            System.out.println("Item Name: " + stock.getItemName());
             System.out.println("Quantity in Stock: " + stock.getQuantityInStock());
             System.out.println("Expiry Date: " + stock.getExpiryDate());
             System.out.println("Manufacture Date: " + stock.getManufactureDate());

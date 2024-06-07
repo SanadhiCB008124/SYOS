@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Bill  {
-
     private int billSerialNumber;
     private double netTotal;
     private List<BillItem> billItems;
@@ -18,11 +17,14 @@ public class Bill  {
     private double subTotal;
     private Date dateOfBill;
     private int totalQuantitiesSold;
-
     private String paymentMethod;
 
+    private String customerName;
 
-    public Bill(int billSerialNumber, double netTotal, List<BillItem> billItems, double discount, double cashTendered, double changeAmount, double subTotal, Date dateOfBill, int totalQuantitiesSold,String paymentMethod) {
+
+
+
+    public Bill(int billSerialNumber, double netTotal, List<BillItem> billItems, double discount, double cashTendered, double changeAmount, double subTotal, Date dateOfBill, int totalQuantitiesSold,String paymentMethod,String customerName) {
         this.billSerialNumber = billSerialNumber;
         this.netTotal = netTotal;
         this.billItems = billItems;
@@ -33,6 +35,7 @@ public class Bill  {
         this.dateOfBill = dateOfBill;
         this.totalQuantitiesSold = totalQuantitiesSold;
         this.paymentMethod=paymentMethod;
+        this.customerName=customerName;
     }
 
     public Bill() {
@@ -119,6 +122,15 @@ public class Bill  {
         this.paymentMethod = paymentMethod;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -132,6 +144,7 @@ public class Bill  {
         sb.append("\n");
         sb.append("Total Quantities sold: ").append(totalQuantitiesSold).append("\n");
         sb.append("Payment Method:").append(paymentMethod).append("\n");
+        sb.append("Customer Name:").append(customerName).append("\n");
         sb.append("Subtotal: ").append(String.format("%.2f", subTotal)).append("\n");
         sb.append("Discount: ").append(String.format("%.2f", discount)).append("\n");
         sb.append("Net Total: ").append(String.format("%.2f", netTotal)).append("\n");

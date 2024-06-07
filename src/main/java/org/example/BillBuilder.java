@@ -13,10 +13,10 @@ public interface BillBuilder {
     void addCashTendered(double cashTendered);
     void addChangeAmount(double changeAmount);
     void addDateOfBill(Date dateOfBill);
-
     void addTotalQuantitiesSold(int totalQuantitiesSold);
 
     void addPaymentMethod(String paymentMethod);
+    void addCustomerName(String customerName);
 
     Bill getBill();
 }

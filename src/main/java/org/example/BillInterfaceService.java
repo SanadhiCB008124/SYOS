@@ -2,7 +2,6 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
@@ -20,6 +19,8 @@ public class BillInterfaceService {
     private Map<String, PaymentStrategy> strategyMap;
     private JButton addItemButton;
     private JButton finalizeButton;
+
+    private  JTextField customerName;
 
     public BillInterfaceService(Map<String, PaymentStrategy> strategyMap) {
         this.strategyMap=strategyMap;
@@ -50,6 +51,10 @@ public class BillInterfaceService {
 
         addItemButton = new JButton("Add Item");
         panel.add(addItemButton);
+
+        panel.add(new JLabel("Enter Customer Name:"));
+        customerName = new JTextField(20);
+        panel.add(customerName);
 
         panel.add(new JLabel("Select Payment Method:"));
         paymentStrategyComboBox = new JComboBox<>(this.strategyMap.keySet().toArray(new String[0]));
@@ -178,6 +183,11 @@ public class BillInterfaceService {
         finalizeButton.addActionListener(listener);
     }
 
+    public JTextField getCustomerName() {
+        return customerName;
+    }
 
-
+    public void setCustomerName(JTextField customerName) {
+        this.customerName = customerName;
+    }
 }

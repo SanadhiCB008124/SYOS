@@ -32,6 +32,7 @@ public class BillReport extends Report  {
             System.out.println("Sub Total: "+bill.getSubTotal());
             System.out.println("Date of Bill: "+bill.getDateOfBill());
             System.out.println("Total Quantities Sold: "+bill.getTotalQuantitiesSold());
+            System.out.println("Customer: "+bill.getCustomerName());
             System.out.println("Bill Item: ");
             for(int i=0;i<bill.getBillItems().size();i++){
                 System.out.println("Item Code: "+bill.getBillItems().get(i).getItemCode());
