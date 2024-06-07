@@ -2,6 +2,7 @@ package org.example.Reports;
 
 import org.example.Bill;
 import org.example.BillIterator;
+import org.example.BillRepository;
 import org.example.Report;
 
 import java.util.ArrayList;
@@ -15,12 +16,14 @@ public class BillReport extends Report  {
     @Override
     protected void getData() {
         System.out.println("Getting data for Bill Report");
-        BillIterator billIterator=new BillIterator(bills);
-        billIterator.loadAllBills();
+        BillRepository billRepository=new BillRepository();
+        BillIterator billIterator=new BillIterator(bills,billRepository);
+        billIterator.loadBills();
     }
 
     @Override
     protected void createReport() {
+
 
         System.out.println("Creating Bill Report");
         for(Bill bill: bills){
