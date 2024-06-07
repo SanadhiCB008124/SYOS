@@ -21,6 +21,55 @@ public class Main {
         }
 
 
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("MAIN MENU");
+            System.out.println("1.Reports Menu");
+            System.out.println("2.Point of Sales Menu");
+            System.out.println("3.Exit");
+            System.out.println("Enter your choice");
+            int choice = scanner.nextInt();
+
+
+            switch (choice) {
+                case 1:
+                    showReportsMenu();
+                    break;
+
+                case 2:
+                    showPointOfSalesMenu();
+                    break;
+
+                case 3:
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid choice");
+            }
+        }
+
+    }
+    private static void showPointOfSalesMenu() {
+        Scanner scanner1=new Scanner(System.in);
+        System.out.println("MENU " +
+                "1. Add Bill " +
+                "2. Customer Management " +
+                "3. Product Management " +
+                "4. Stock Management " +
+                "5. Shelf Management "+
+                "6. Stock to Shelf Check");
+
+        int choice1=scanner1.nextInt();
+        PointOfSalesMenu pointOfSalesMenu = new PointOfSalesMenu();
+        PointOfSales pointOfSales = pointOfSalesMenu.getInterface(choice1);
+        pointOfSales.getInterface();
+    }
+
+
+    private static void showReportsMenu() {
+
         Scanner scanner=new Scanner(System.in);
         System.out.println("Print report:" +
                 "1. Stock Report" +
@@ -47,21 +96,6 @@ public class Main {
         } else {
             System.out.println("Invalid choice");
         }
-
-
-        Scanner scanner1=new Scanner(System.in);
-        System.out.println("MENU " +
-                "1. Add Bill " +
-                "2. Customer Management " +
-                "3. Product Management " +
-                "4. Stock Management " +
-                "5. Shelf Management ");
-
-        int choice1=scanner1.nextInt();
-        PointOfSalesMenu pointOfSalesMenu = new PointOfSalesMenu();
-        PointOfSales pointOfSales = pointOfSalesMenu.getInterface(choice1);
-        pointOfSales.getInterface();
-
 
 
 

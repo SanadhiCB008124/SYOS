@@ -16,7 +16,11 @@ public class PointOfSalesMenu {
 
         } else if (type==5) {
             return  new ItemsOnShelfInterface();
-        } else{
+        } else if (type==6) {
+            return new StockToShelfCheckInterface();
+        }
+
+        else{
             return null;
         }
 

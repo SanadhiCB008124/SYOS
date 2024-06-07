@@ -2,10 +2,9 @@ package org.example;
 
 import DatabaseConfiguration.Database;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StockItemRepository {
 
@@ -34,4 +33,32 @@ public class StockItemRepository {
             System.out.println("Error adding Batch Item to database: " + e.getMessage());
         }
     }
+    public List<Stock> retrieveBatchItems() {
+        List<Stock> stocks = new ArrayList<>();
+        String SQL_SELECT = "SELECT * FROM stockitem";
+
+        try (Connection conn = database.connect();
+             PreparedStatement pstmt = conn.prepareStatement(SQL_SELECT)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int stockItemId = rs.getInt("stockItemId");
+                int batchCode = rs.getInt("batchCode");
+                String itemName = rs.getString("itemName");
+                int itemCode = rs.getInt("itemCode");
+                int quantityInStock = rs.getInt("quantityInStock");
+                Date manufactureDate = rs.getDate("manufactureDate");
+                Date expiryDate = rs.getDate("expiryDate");
+                Date batchDate = rs.getDate("batchDate");
+
+                stocks.add(new Stock(stockItemId, batchCode, itemName, itemCode, quantityInStock, expiryDate, manufactureDate, batchDate));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving batch items from database: " + e.getMessage());
+        }
+        return stocks;
+    }
+
+
+
+
 }
