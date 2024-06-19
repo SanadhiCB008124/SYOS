@@ -17,7 +17,7 @@
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/SanadhiCB008124/crm1.git
+   git clone https://github.com/SanadhiCB008124/SYOS.git
    ```
 
 
